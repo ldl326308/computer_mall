@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.nf.lc.dao.ProcessorMapper">
+  <resultMap id="BaseResultMap" type="com.nf.lc.entity.Processor">
+    <id column="processor_id" jdbcType="INTEGER" property="processorId" />
+    <result column="processor_name" jdbcType="VARCHAR" property="processorName" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from processor
+    where processor_id = #{processorId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.nf.lc.entity.Processor">
+    insert into processor (processor_id, processor_name)
+    values (#{processorId,jdbcType=INTEGER}, #{processorName,jdbcType=VARCHAR})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.nf.lc.entity.Processor">
+    update processor
+    set processor_name = #{processorName,jdbcType=VARCHAR}
+    where processor_id = #{processorId,jdbcType=INTEGER}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select processor_id, processor_name
+    from processor
+    where processor_id = #{processorId,jdbcType=INTEGER}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select processor_id, processor_name
+    from processor
+  </select>
+</mapper>

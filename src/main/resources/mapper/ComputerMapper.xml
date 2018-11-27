@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.nf.lc.dao.ComputerMapper">
+  <resultMap id="BaseResultMap" type="com.nf.lc.entity.Computer">
+    <id column="computer_id" jdbcType="INTEGER" property="computerId" />
+    <result column="computer_describe" jdbcType="VARCHAR" property="computerDescribe" />
+    <result column="computer_price" jdbcType="DECIMAL" property="computerPrice" />
+    <result column="computer_state" jdbcType="INTEGER" property="computerState" />
+    <result column="computer_create_time" jdbcType="TIMESTAMP" property="computerCreateTime" />
+    <result column="brand_id" jdbcType="INTEGER" property="brandId" />
+    <result column="type_id" jdbcType="INTEGER" property="typeId" />
+    <result column="processor_id" jdbcType="INTEGER" property="processorId" />
+    <result column="memory_capacity_id" jdbcType="INTEGER" property="memoryCapacityId" />
+    <result column="hard_disk_id" jdbcType="INTEGER" property="hardDiskId" />
+    <result column="computer_system_id" jdbcType="INTEGER" property="computerSystemId" />
+    <result column="dimension_id" jdbcType="INTEGER" property="dimensionId" />
+    <result column="nvdia_id" jdbcType="INTEGER" property="nvdiaId" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from computer
+    where computer_id = #{computerId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.nf.lc.entity.Computer">
+    insert into computer (computer_id, computer_describe, computer_price, 
+      computer_state, computer_create_time, brand_id, 
+      type_id, processor_id, memory_capacity_id, 
+      hard_disk_id, computer_system_id, dimension_id, 
+      nvdia_id)
+    values (#{computerId,jdbcType=INTEGER}, #{computerDescribe,jdbcType=VARCHAR}, #{computerPrice,jdbcType=DECIMAL}, 
+      #{computerState,jdbcType=INTEGER}, #{computerCreateTime,jdbcType=TIMESTAMP}, #{brandId,jdbcType=INTEGER}, 
+      #{typeId,jdbcType=INTEGER}, #{processorId,jdbcType=INTEGER}, #{memoryCapacityId,jdbcType=INTEGER}, 
+      #{hardDiskId,jdbcType=INTEGER}, #{computerSystemId,jdbcType=INTEGER}, #{dimensionId,jdbcType=INTEGER}, 
+      #{nvdiaId,jdbcType=INTEGER})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.nf.lc.entity.Computer">
+    update computer
+    set computer_describe = #{computerDescribe,jdbcType=VARCHAR},
+      computer_price = #{computerPrice,jdbcType=DECIMAL},
+      computer_state = #{computerState,jdbcType=INTEGER},
+      computer_create_time = #{computerCreateTime,jdbcType=TIMESTAMP},
+      brand_id = #{brandId,jdbcType=INTEGER},
+      type_id = #{typeId,jdbcType=INTEGER},
+      processor_id = #{processorId,jdbcType=INTEGER},
+      memory_capacity_id = #{memoryCapacityId,jdbcType=INTEGER},
+      hard_disk_id = #{hardDiskId,jdbcType=INTEGER},
+      computer_system_id = #{computerSystemId,jdbcType=INTEGER},
+      dimension_id = #{dimensionId,jdbcType=INTEGER},
+      nvdia_id = #{nvdiaId,jdbcType=INTEGER}
+    where computer_id = #{computerId,jdbcType=INTEGER}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select computer_id, computer_describe, computer_price, computer_state, computer_create_time, 
+    brand_id, type_id, processor_id, memory_capacity_id, hard_disk_id, computer_system_id, 
+    dimension_id, nvdia_id
+    from computer
+    where computer_id = #{computerId,jdbcType=INTEGER}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select computer_id, computer_describe, computer_price, computer_state, computer_create_time, 
+    brand_id, type_id, processor_id, memory_capacity_id, hard_disk_id, computer_system_id, 
+    dimension_id, nvdia_id
+    from computer
+  </select>
+</mapper>

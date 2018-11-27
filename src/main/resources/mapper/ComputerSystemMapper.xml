@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.nf.lc.dao.ComputerSystemMapper">
+  <resultMap id="BaseResultMap" type="com.nf.lc.entity.ComputerSystem">
+    <id column="computer_system_id" jdbcType="INTEGER" property="computerSystemId" />
+    <result column="computer_system_name" jdbcType="VARCHAR" property="computerSystemName" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from computer_system
+    where computer_system_id = #{computerSystemId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.nf.lc.entity.ComputerSystem">
+    insert into computer_system (computer_system_id, computer_system_name
+      )
+    values (#{computerSystemId,jdbcType=INTEGER}, #{computerSystemName,jdbcType=VARCHAR}
+      )
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.nf.lc.entity.ComputerSystem">
+    update computer_system
+    set computer_system_name = #{computerSystemName,jdbcType=VARCHAR}
+    where computer_system_id = #{computerSystemId,jdbcType=INTEGER}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select computer_system_id, computer_system_name
+    from computer_system
+    where computer_system_id = #{computerSystemId,jdbcType=INTEGER}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select computer_system_id, computer_system_name
+    from computer_system
+  </select>
+</mapper>

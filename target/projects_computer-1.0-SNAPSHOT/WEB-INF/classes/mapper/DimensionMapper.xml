@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.nf.lc.dao.DimensionMapper">
+  <resultMap id="BaseResultMap" type="com.nf.lc.entity.Dimension">
+    <id column="dimension_id" jdbcType="INTEGER" property="dimensionId" />
+    <result column="dimension_name" jdbcType="VARCHAR" property="dimensionName" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from dimension
+    where dimension_id = #{dimensionId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.nf.lc.entity.Dimension">
+    insert into dimension (dimension_id, dimension_name)
+    values (#{dimensionId,jdbcType=INTEGER}, #{dimensionName,jdbcType=VARCHAR})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.nf.lc.entity.Dimension">
+    update dimension
+    set dimension_name = #{dimensionName,jdbcType=VARCHAR}
+    where dimension_id = #{dimensionId,jdbcType=INTEGER}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select dimension_id, dimension_name
+    from dimension
+    where dimension_id = #{dimensionId,jdbcType=INTEGER}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select dimension_id, dimension_name
+    from dimension
+  </select>
+</mapper>

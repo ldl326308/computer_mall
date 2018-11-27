@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.nf.lc.dao.AdministratorsMapper">
+  <resultMap id="BaseResultMap" type="com.nf.lc.entity.Administrators">
+    <id column="admin_id" jdbcType="INTEGER" property="adminId" />
+    <result column="admin_id_number" jdbcType="VARCHAR" property="adminIdNumber" />
+    <result column="admin_account_number" jdbcType="VARCHAR" property="adminAccountNumber" />
+    <result column="admin_password" jdbcType="VARCHAR" property="adminPassword" />
+    <result column="admin_sexual" jdbcType="VARCHAR" property="adminSexual" />
+    <result column="admin_age" jdbcType="INTEGER" property="adminAge" />
+    <result column="admin_power_user" jdbcType="INTEGER" property="adminPowerUser" />
+    <result column="admin_power_computer" jdbcType="INTEGER" property="adminPowerComputer" />
+    <result column="admin_power_superme" jdbcType="INTEGER" property="adminPowerSuperme" />
+    <result column="admin_state" jdbcType="INTEGER" property="adminState" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from administrators
+    where admin_id = #{adminId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.nf.lc.entity.Administrators">
+    insert into administrators (admin_id, admin_id_number, admin_account_number, 
+      admin_password, admin_sexual, admin_age, 
+      admin_power_user, admin_power_computer, admin_power_superme, 
+      admin_state)
+    values (#{adminId,jdbcType=INTEGER}, #{adminIdNumber,jdbcType=VARCHAR}, #{adminAccountNumber,jdbcType=VARCHAR}, 
+      #{adminPassword,jdbcType=VARCHAR}, #{adminSexual,jdbcType=VARCHAR}, #{adminAge,jdbcType=INTEGER}, 
+      #{adminPowerUser,jdbcType=INTEGER}, #{adminPowerComputer,jdbcType=INTEGER}, #{adminPowerSuperme,jdbcType=INTEGER}, 
+      #{adminState,jdbcType=INTEGER})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.nf.lc.entity.Administrators">
+    update administrators
+    set admin_id_number = #{adminIdNumber,jdbcType=VARCHAR},
+      admin_account_number = #{adminAccountNumber,jdbcType=VARCHAR},
+      admin_password = #{adminPassword,jdbcType=VARCHAR},
+      admin_sexual = #{adminSexual,jdbcType=VARCHAR},
+      admin_age = #{adminAge,jdbcType=INTEGER},
+      admin_power_user = #{adminPowerUser,jdbcType=INTEGER},
+      admin_power_computer = #{adminPowerComputer,jdbcType=INTEGER},
+      admin_power_superme = #{adminPowerSuperme,jdbcType=INTEGER},
+      admin_state = #{adminState,jdbcType=INTEGER}
+    where admin_id = #{adminId,jdbcType=INTEGER}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select admin_id, admin_id_number, admin_account_number, admin_password, admin_sexual, 
+    admin_age, admin_power_user, admin_power_computer, admin_power_superme, admin_state
+    from administrators
+    where admin_id = #{adminId,jdbcType=INTEGER}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select admin_id, admin_id_number, admin_account_number, admin_password, admin_sexual, 
+    admin_age, admin_power_user, admin_power_computer, admin_power_superme, admin_state
+    from administrators
+  </select>
+</mapper>

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.nf.lc.dao.AddressMapper">
+  <resultMap id="BaseResultMap" type="com.nf.lc.entity.Address">
+    <id column="address_id" jdbcType="INTEGER" property="addressId" />
+    <result column="receiving_name" jdbcType="VARCHAR" property="receivingName" />
+    <result column="address_name" jdbcType="VARCHAR" property="addressName" />
+    <result column="receiving_phone" jdbcType="VARCHAR" property="receivingPhone" />
+    <result column="address_detailed" jdbcType="VARCHAR" property="addressDetailed" />
+    <result column="user_id" jdbcType="INTEGER" property="userId" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from address
+    where address_id = #{addressId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.nf.lc.entity.Address">
+    insert into address (address_id, receiving_name, address_name, 
+      receiving_phone, address_detailed, user_id
+      )
+    values (#{addressId,jdbcType=INTEGER}, #{receivingName,jdbcType=VARCHAR}, #{addressName,jdbcType=VARCHAR}, 
+      #{receivingPhone,jdbcType=VARCHAR}, #{addressDetailed,jdbcType=VARCHAR}, #{userId,jdbcType=INTEGER}
+      )
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.nf.lc.entity.Address">
+    update address
+    set receiving_name = #{receivingName,jdbcType=VARCHAR},
+      address_name = #{addressName,jdbcType=VARCHAR},
+      receiving_phone = #{receivingPhone,jdbcType=VARCHAR},
+      address_detailed = #{addressDetailed,jdbcType=VARCHAR},
+      user_id = #{userId,jdbcType=INTEGER}
+    where address_id = #{addressId,jdbcType=INTEGER}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select address_id, receiving_name, address_name, receiving_phone, address_detailed, 
+    user_id
+    from address
+    where address_id = #{addressId,jdbcType=INTEGER}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select address_id, receiving_name, address_name, receiving_phone, address_detailed, 
+    user_id
+    from address
+  </select>
+</mapper>
