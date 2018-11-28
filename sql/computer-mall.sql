@@ -54,24 +54,25 @@ create table `brand`
 );
 
 
+
 #数据录入
 insert into `brand`(brand_name,brand_title,brand_image) 
-	values('Lenovo','联想(Lenovo)','./images/brand/15668b30fabe0850.jpg'),
-	('DELL','戴尔(DELL)','./images/brand/59804402N1c4e5159.jpg'),
-	('HP','惠普(HP)','./images/brand/598035b4N9cd3ed1e.jpg'),
-	('ThinkPad','ThinkPad','./images/brand/5a533a0eNdb977d35.png'),
-	('ASUS','华硕(ASUS)','./images/brand/5a25249dN279cc35d.jpg'),
-	('武极','武极','./images/brand/5a211ca7Nf8eb4275.jpg'),
-	('华为','华为(HUAWEI)','./images/brand/f2c28fcb98037424.jpg'),
-	('Apple','Apple','./images/brand/574d36dbN262ef26d.jpg'),
-	('小米','小米(MI)','./images/brand/600c61f344607414.jpg'),
-	('联想','联想(ThinkCentre)','./images/brand/5534b947Na4502fe8.jpg'),
-	('御龙者','御龙者','./images/brand/568c6d4aNe52d233c.jpg'),
-	('HASEE','神舟(HASEE)','./images/brand/59803674N3ea83874.jpg'),
-	('SAMSUNG','三星(SAMSUNG)','./images/brand/74dc92d16e483509.jpg'),
-	('极限矩阵','极限矩阵','./images/brand/5b693a42N871ad037.jpg'),
-	('钛度','钛度(Taidu)','./images/brand/59813344N7ae1f7d3.jpg'),
-	('Haier','海尔(Haier)','./images/brand/5b221dd6N8b93f2ef.jpg');
+	values('Lenovo','联想(Lenovo)','/images/brand/15668b30fabe0850.jpg'),
+	('DELL','戴尔(DELL)','/images/brand/59804402N1c4e5159.jpg'),
+	('HP','惠普(HP)','/images/brand/598035b4N9cd3ed1e.jpg'),
+	('ThinkPad','ThinkPad','/images/brand/5a533a0eNdb977d35.png'),
+	('ASUS','华硕(ASUS)','/images/brand/5a25249dN279cc35d.jpg'),
+	('武极','武极','/images/brand/5a211ca7Nf8eb4275.jpg'),
+	('华为','华为(HUAWEI)','/images/brand/f2c28fcb98037424.jpg'),
+	('Apple','Apple','/images/brand/574d36dbN262ef26d.jpg'),
+	('小米','小米(MI)','/images/brand/600c61f344607414.jpg'),
+	('联想','联想(ThinkCentre)','/images/brand/5534b947Na4502fe8.jpg'),
+	('御龙者','御龙者','/images/brand/568c6d4aNe52d233c.jpg'),
+	('HASEE','神舟(HASEE)','/images/brand/59803674N3ea83874.jpg'),
+	('SAMSUNG','三星(SAMSUNG)','/images/brand/74dc92d16e483509.jpg'),
+	('极限矩阵','极限矩阵','/images/brand/5b693a42N871ad037.jpg'),
+	('钛度','钛度(Taidu)','/images/brand/59813344N7ae1f7d3.jpg'),
+	('Haier','海尔(Haier)','/images/brand/5b221dd6N8b93f2ef.jpg');
 
 select * from `brand`;
 
@@ -265,34 +266,34 @@ create table `computer_image`
 
 # 添加数据
 insert into `computer_image`(computer_id,computer_image_url) 
-	values(1,'./images/computer/5b3c3822Nea8f73e4.jpg'),(1,'./images/computer/5b3c3823Nb0530bbb.jpg'),(1,'./images/computer/5ac9ac60N04e25348.jpg'),
-	(2,'./images/computer/5b11632fNbcf2b880.jpg'),(2,'./images/computer/5b07bf70Nb0dc19ac.jpg'),(2,'./images/computer/5b07bf74N63a18425.jpg'),
-	(3,'./images/computer/5b0fd9dbNeadc1b8d.jpg'),(3,'./images/computer/5b068304N9cb7d10a.jpg'),(3,'./images/computer/5b06830eNac588068.jpg'),
-	(4,'./images/computer/5b723894N7b459827.jpg'),(4,'./images/computer/5b723898Nd5cd8d20.jpg'),(4,'./images/computer/5b151d7cN10a57e9d.jpg'),
-	(5,'./images/computer/5bea4504Nb056f6cb.jpg'),(5,'./images/computer/5b63d543N72e67ca2.jpg'),(5,'./images/computer/5b63d5c2N19b49f4c.jpg'),
-	(6,'./images/computer/5bf3ea0aN4960c965.jpg'),(6,'./images/computer/5a252a4cN5a2c9601.jpg'),(6,'./images/computer/5a252a4aN08795195.jpg'),
-	(7,'./images/computer/5a027e8dNa2766ce3.jpg'),(7,'./images/computer/5a02a07fN060b0041.jpg'),(7,'./images/computer/5a02a07fNf9fb9726.jpg'),
-	(8,'./images/computer/5b8c9a05N5da289f4.jpg'),(8,'./images/computer/5b8c9a05N70384091.jpg'),(8,'./images/computer/5b8c9a05N864a476e.jpg'),
-	(9,'./images/computer/59f15bb4Nf9517d75.jpg'),(9,'./images/computer/59c38f2bN216f7622.jpg'),(9,'./images/computer/5a1ba712Ne76c1ca8.jpg'),
-	(10,'./images/computer/59f156f1N704c1c7a.jpg'),(10,'./images/computer/59b261dfN40cd53d7.jpg'),(10,'./images/computer/5a1d1684N9426a1b8.jpg'),
-	(11,'./images/computer/5ae00211N25afad2c.jpg'),(11,'./images/computer/5ade9570Nce9d5157.jpg'),(11,'./images/computer/5ae190daN7b9a4f44.jpg'),
-	(12,'./images/computer/5b714df8N00e75d13.jpg'),(12,'./images/computer/5ac1d880N8fd51747.jpg'),(12,'./images/computer/5ac1d886Na0751754.jpg'),
-	(13,'./images/computer/5bf4c103N739ef1b9.jpg'),(13,'./images/computer/5b7293b8N39fa9e52.jpg'),(13,'./images/computer/5b7293b8N770a954c.jpg'),
-	(14,'./images/computer/5bf4c103N739ef1b9.jpg'),(14,'./images/computer/5b7293b9N51c8c8ca.jpg'),(14,'./images/computer/5b7293b9Nc5596e51.jpg'),
-	(15,'./images/computer/5bf38350N60acad0f.jpg'),(15,'./images/computer/b21ace1fa114c54e.jpg'),(15,'./images/computer/23d6a48c2ef1c1f0.jpg'),
-	(16,'./images/computer/5bf38225Nece16556.jpg'),(16,'./images/computer/5b778982N310b9734.jpg'),(16,'./images/computer/5b778982Na884518f.jpg'),
-	(17,'./images/computer/5b1e17b2Nb62472fd.jpg'),(17,'./images/computer/5b4d63f0Nb302d7d2.jpg'),(17,'./images/computer/31901ed484c239d7.jpg'),
-	(18,'./images/computer/5b714df8N00e75d13.jpg'),(18,'./images/computer/5ac1d886Na0751754.jpg'),(18,'./images/computer/5ac1d88eN62354e3f.jpg'),
-	(19,'./images/computer/5bfa90e5N14eb4b40.jpg'),(19,'./images/computer/5baf1295N5ae3d86e.jpg'),(19,'./images/computer/5badc63dNe79c6a7d.jpg'),
-	(20,'./images/computer/5bbf0c20N627d644d.jpg'),(20,'./images/computer/5acc36f0N44cfe41d.jpg'),(20,'./images/computer/5b023422Nd0a5a2f8.jpg'),
-	(21,'./images/computer/5bbf0dddN33c9da74.jpg'),(21,'./images/computer/33bb900f2d2d1573.jpg'),(21,'./images/computer/3dacc9fdaac6e81e.jpg'),
-	(22,'./images/computer/567a05edNecaa1f0a.jpg'),(22,'./images/computer/567a05faN01b531b9.jpg'),(22,'./images/computer/567a05f1Naecc8144.jpg'),
-	(23,'./images/computer/5b582284N273ebaa7.jpg'),(23,'./images/computer/5b582284N91fb5525.jpg'),(23,'./images/computer/5b582284N4d539628.jpg'),
-	(24,'./images/computer/5bea3fa2Nd3641143.jpg'),(24,'./images/computer/3bf7cc4ccb0f8bbc.jpg'),(24,'./images/computer/5b5985ebN3c822906.jpg'),
-	(25,'./images/computer/598e8a7dN9ecbd47a.jpg'),(25,'./images/computer/5a162978N948fb06f.jpg'),(25,'./images/computer/58ae9d31Nd3abeca7.jpg'),
-	(26,'./images/computer/5b7691f6N656bfc30.jpg'),(26,'./images/computer/5b7691e5Ne12a0c35.jpg'),(26,'./images/computer/5b76916cN76ad11f6.jpg'),
-	(27,'./images/computer/bd650555baf114ab.jpg'),(27,'./images/computer/bb8f4811394624ea.jpg'),(27,'./images/computer/aa49f29c0539dcba.jpg'),
-	(28,'./images/computer/5abdebe9Nb9531f98.jpg'),(28,'./images/computer/5ad6fac3N20935d11.jpg'),(28,'./images/computer/5abdebb3N2738bf5a.jpg');
+	values(1,'/images/computer/5b3c3822Nea8f73e4.jpg'),(1,'/images/computer/5b3c3823Nb0530bbb.jpg'),(1,'/images/computer/5ac9ac60N04e25348.jpg'),
+	(2,'/images/computer/5b11632fNbcf2b880.jpg'),(2,'/images/computer/5b07bf70Nb0dc19ac.jpg'),(2,'/images/computer/5b07bf74N63a18425.jpg'),
+	(3,'/images/computer/5b0fd9dbNeadc1b8d.jpg'),(3,'/images/computer/5b068304N9cb7d10a.jpg'),(3,'/images/computer/5b06830eNac588068.jpg'),
+	(4,'/images/computer/5b723894N7b459827.jpg'),(4,'/images/computer/5b723898Nd5cd8d20.jpg'),(4,'/images/computer/5b151d7cN10a57e9d.jpg'),
+	(5,'/images/computer/5bea4504Nb056f6cb.jpg'),(5,'/images/computer/5b63d543N72e67ca2.jpg'),(5,'/images/computer/5b63d5c2N19b49f4c.jpg'),
+	(6,'/images/computer/5bf3ea0aN4960c965.jpg'),(6,'/images/computer/5a252a4cN5a2c9601.jpg'),(6,'/images/computer/5a252a4aN08795195.jpg'),
+	(7,'/images/computer/5a027e8dNa2766ce3.jpg'),(7,'/images/computer/5a02a07fN060b0041.jpg'),(7,'/images/computer/5a02a07fNf9fb9726.jpg'),
+	(8,'/images/computer/5b8c9a05N5da289f4.jpg'),(8,'/images/computer/5b8c9a05N70384091.jpg'),(8,'/images/computer/5b8c9a05N864a476e.jpg'),
+	(9,'/images/computer/59f15bb4Nf9517d75.jpg'),(9,'/images/computer/59c38f2bN216f7622.jpg'),(9,'/images/computer/5a1ba712Ne76c1ca8.jpg'),
+	(10,'/images/computer/59f156f1N704c1c7a.jpg'),(10,'/images/computer/59b261dfN40cd53d7.jpg'),(10,'/images/computer/5a1d1684N9426a1b8.jpg'),
+	(11,'/images/computer/5ae00211N25afad2c.jpg'),(11,'/images/computer/5ade9570Nce9d5157.jpg'),(11,'/images/computer/5ae190daN7b9a4f44.jpg'),
+	(12,'/images/computer/5b714df8N00e75d13.jpg'),(12,'/images/computer/5ac1d880N8fd51747.jpg'),(12,'/images/computer/5ac1d886Na0751754.jpg'),
+	(13,'/images/computer/5bf4c103N739ef1b9.jpg'),(13,'/images/computer/5b7293b8N39fa9e52.jpg'),(13,'/images/computer/5b7293b8N770a954c.jpg'),
+	(14,'/images/computer/5bf4c103N739ef1b9.jpg'),(14,'/images/computer/5b7293b9N51c8c8ca.jpg'),(14,'/images/computer/5b7293b9Nc5596e51.jpg'),
+	(15,'/images/computer/5bf38350N60acad0f.jpg'),(15,'/images/computer/b21ace1fa114c54e.jpg'),(15,'/images/computer/23d6a48c2ef1c1f0.jpg'),
+	(16,'/images/computer/5bf38225Nece16556.jpg'),(16,'/images/computer/5b778982N310b9734.jpg'),(16,'/images/computer/5b778982Na884518f.jpg'),
+	(17,'/images/computer/5b1e17b2Nb62472fd.jpg'),(17,'/images/computer/5b4d63f0Nb302d7d2.jpg'),(17,'/images/computer/31901ed484c239d7.jpg'),
+	(18,'/images/computer/5b714df8N00e75d13.jpg'),(18,'/images/computer/5ac1d886Na0751754.jpg'),(18,'/images/computer/5ac1d88eN62354e3f.jpg'),
+	(19,'/images/computer/5bfa90e5N14eb4b40.jpg'),(19,'/images/computer/5baf1295N5ae3d86e.jpg'),(19,'/images/computer/5badc63dNe79c6a7d.jpg'),
+	(20,'/images/computer/5bbf0c20N627d644d.jpg'),(20,'/images/computer/5acc36f0N44cfe41d.jpg'),(20,'/images/computer/5b023422Nd0a5a2f8.jpg'),
+	(21,'/images/computer/5bbf0dddN33c9da74.jpg'),(21,'/images/computer/33bb900f2d2d1573.jpg'),(21,'/images/computer/3dacc9fdaac6e81e.jpg'),
+	(22,'/images/computer/567a05edNecaa1f0a.jpg'),(22,'/images/computer/567a05faN01b531b9.jpg'),(22,'/images/computer/567a05f1Naecc8144.jpg'),
+	(23,'/images/computer/5b582284N273ebaa7.jpg'),(23,'/images/computer/5b582284N91fb5525.jpg'),(23,'/images/computer/5b582284N4d539628.jpg'),
+	(24,'/images/computer/5bea3fa2Nd3641143.jpg'),(24,'/images/computer/3bf7cc4ccb0f8bbc.jpg'),(24,'/images/computer/5b5985ebN3c822906.jpg'),
+	(25,'/images/computer/598e8a7dN9ecbd47a.jpg'),(25,'/images/computer/5a162978N948fb06f.jpg'),(25,'/images/computer/58ae9d31Nd3abeca7.jpg'),
+	(26,'/images/computer/5b7691f6N656bfc30.jpg'),(26,'/images/computer/5b7691e5Ne12a0c35.jpg'),(26,'/images/computer/5b76916cN76ad11f6.jpg'),
+	(27,'/images/computer/bd650555baf114ab.jpg'),(27,'/images/computer/bb8f4811394624ea.jpg'),(27,'/images/computer/aa49f29c0539dcba.jpg'),
+	(28,'/images/computer/5abdebe9Nb9531f98.jpg'),(28,'/images/computer/5ad6fac3N20935d11.jpg'),(28,'/images/computer/5abdebb3N2738bf5a.jpg');
 
 
 select * from `computer`c inner join `computer_image` co on c.computer_id = co.computer_id;

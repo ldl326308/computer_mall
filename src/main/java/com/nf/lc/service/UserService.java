@@ -16,12 +16,12 @@ public class UserService implements UserServiceImp {
 
     @Override
     public int deleteByPrimaryKey(Integer userId) {
-        return 0;
+        return userMapper.deleteByPrimaryKey(userId);
     }
 
     @Override
     public int insert(User record) {
-        return 0;
+        return userMapper.insert(record);
     }
 
     @Override
@@ -36,6 +36,6 @@ public class UserService implements UserServiceImp {
 
     @Override
     public int updateByPrimaryKey(User record) {
-        return 0;
+        return userMapper.updateByPrimaryKey(record);
     }
 }
