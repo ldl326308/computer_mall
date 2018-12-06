@@ -1,11 +1,13 @@
 package com.nf.lc.controller;
 
+import com.nf.lc.dto.Result;
 import com.nf.lc.entity.Brand;
 import com.nf.lc.service.BrandService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+
+import static com.nf.lc.dto.Result.success;
 
 
 @Controller
@@ -21,8 +23,8 @@ public class BrandController {
      */
     @RequestMapping(value = "/brand", method = RequestMethod.GET, produces = "application/json;charset=utf-8")
     @ResponseBody
-    public ResponseEntity selectAll() {
-        return ResponseEntity.ok(brandService.selectAll());
+    public Result selectAll() {
+        return Result.success(brandService.selectAll());
     }
 
     /**
@@ -33,8 +35,8 @@ public class BrandController {
      */
     @RequestMapping(value = "/brand/{brandId}", method = RequestMethod.DELETE, produces = "application/json;charset=utf-8")
     @ResponseBody
-    public ResponseEntity deleteByPrimaryKey(@PathVariable("brandId") int brandId) {
-        return brandService.deleteByPrimaryKey(brandId) > 0 ? ResponseEntity.ok("删除成功!") : ResponseEntity.ok("删除失败！");
+    public Result deleteByPrimaryKey(@PathVariable("brandId") int brandId) {
+        return brandService.deleteByPrimaryKey(brandId) > 0 ? Result.successMessage("删除成功！") : Result.error("删除失败！");
     }
 
     /**
@@ -45,8 +47,8 @@ public class BrandController {
      */
     @RequestMapping(value = "/brand", method = RequestMethod.POST, produces = "application/json;charset=utf-8")
     @ResponseBody
-    public ResponseEntity insert(Brand brand) {
-        return brandService.insert(brand) > 0 ? ResponseEntity.ok("添加成功！") : ResponseEntity.ok("添加失败！");
+    public Result insert(Brand brand) {
+        return brandService.insert(brand) > 0 ? Result.successMessage("添加成功！") : Result.error("添加失败！");
     }
 
     /**
@@ -57,8 +59,8 @@ public class BrandController {
      */
     @RequestMapping(value = "/brand/{brandId}", method = RequestMethod.GET, produces = "application/json;charset=utf-8")
     @ResponseBody
-    public ResponseEntity selectByPrimaryKey(@PathVariable("brandId") int brandId) {
-        return ResponseEntity.ok(brandService.selectByPrimaryKey(brandId));
+    public Result selectByPrimaryKey(@PathVariable("brandId") int brandId) {
+        return success(brandService.selectByPrimaryKey(brandId));
     }
 
     /**
@@ -69,8 +71,8 @@ public class BrandController {
      */
     @RequestMapping(value = "/brand", method = RequestMethod.PUT, produces = "application/json;charset=utf-8")
     @ResponseBody
-    public ResponseEntity updateByPrimaryKey(Brand brand) {
-        return brandService.updateByPrimaryKey(brand) > 0 ? ResponseEntity.ok("修改成功！") : ResponseEntity.ok("修改失败！");
+    public Result updateByPrimaryKey(Brand brand) {
+        return brandService.updateByPrimaryKey(brand) > 0 ? Result.successMessage("修改成功！") : Result.error("修改失败！");
     }
 
 }

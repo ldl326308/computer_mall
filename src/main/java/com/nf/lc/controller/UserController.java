@@ -1,11 +1,16 @@
 package com.nf.lc.controller;
 
+import com.nf.lc.dto.Result;
 import com.nf.lc.entity.User;
+import com.nf.lc.exception.FailureException;
+import com.nf.lc.exception.FrozenAccountsException;
+import com.nf.lc.exception.NonExistentException;
 import com.nf.lc.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpSession;
 
 
 @Controller
@@ -21,8 +26,8 @@ public class UserController {
      */
     @RequestMapping(value = "/user", method = RequestMethod.GET, produces = "application/json;charset=utf-8")
     @ResponseBody
-    public ResponseEntity selectAll() {
-        return ResponseEntity.ok(userService.selectAll());
+    public Result selectAll() {
+        return Result.success(userService.selectAll());
     }
 
     /**
@@ -31,10 +36,10 @@ public class UserController {
      * @param userId
      * @return
      */
-    @RequestMapping(value = "/user/{userId}", method = RequestMethod.DELETE, produces = "text/html;charset=utf-8")
+    @RequestMapping(value = "/user/{userId}", method = RequestMethod.DELETE, produces = "application/json;charset=utf-8")
     @ResponseBody
-    public ResponseEntity deleteByPrimaryKey(@PathVariable("userId") int userId) {
-        return userService.deleteByPrimaryKey(userId) > 0 ? ResponseEntity.ok("删除成功!") : ResponseEntity.ok("删除失败!");
+    public Result deleteByPrimaryKey(@PathVariable("userId") int userId) {
+        return userService.deleteByPrimaryKey(userId) > 0 ? Result.successMessage("删除成功!") : Result.error("删除失败!");
     }
 
     /**
@@ -43,10 +48,18 @@ public class UserController {
      * @param user
      * @return
      */
-    @RequestMapping(value = "/user", method = RequestMethod.POST, produces = "text/html;charset=utf-8")
+    @RequestMapping(value = "/user", method = RequestMethod.POST, produces = "application/json;charset=utf-8")
     @ResponseBody
-    public ResponseEntity insert(User user) {
-        return userService.insert(user) > 0 ? ResponseEntity.ok("添加成功!") : ResponseEntity.ok("添加失败!");
+    public Result insert(@RequestBody User user, HttpSession session) {
+        try {
+            userService.insert(user);
+            //根据注册传来的账号进行查询，并保存到Session中
+            User fullDetail = userService.selectAccountNumber(user);
+            session.setAttribute("currentUser", fullDetail);
+            return Result.success("恭喜您注册成功，已为您自动登入！", fullDetail);
+        } catch (FailureException e) {
+            return Result.error(e.getMessage());
+        }
     }
 
     /**
@@ -57,8 +70,8 @@ public class UserController {
      */
     @RequestMapping(value = "/user/{userId}", method = RequestMethod.GET, produces = "application/json;charset=utf-8")
     @ResponseBody
-    public ResponseEntity selectByPrimaryKey(@PathVariable("userId") int userId) {
-        return ResponseEntity.ok(userService.selectByPrimaryKey(userId));
+    public Result selectByPrimaryKey(@PathVariable("userId") int userId) {
+        return Result.success(userService.selectByPrimaryKey(userId));
     }
 
     /**
@@ -67,10 +80,74 @@ public class UserController {
      * @param user
      * @return
      */
-    @RequestMapping(value = "/user", method = RequestMethod.PUT, produces = "text/html;charset=utf-8")
+    @RequestMapping(value = "/user", method = RequestMethod.PUT, produces = "application/json;charset=utf-8")
     @ResponseBody
-    public ResponseEntity updateByPrimaryKey(User user) {
-        return userService.updateByPrimaryKey(user) > 0 ? ResponseEntity.ok("修改成功！") : ResponseEntity.ok("修改失败！");
+    public Result updateByPrimaryKey(@RequestBody User user, HttpSession session) {
+        //获得Session中保存的对象
+        User sessionUser = (User) session.getAttribute("currentUser");
+        sessionUser.setUserHeadPortrait(user.getUserHeadPortrait());
+        sessionUser.setUserNickname(user.getUserNickname());
+        sessionUser.setUserPassword(user.getUserPassword());
+
+        if (userService.updateByPrimaryKey(sessionUser) > 0) {  //修改成功
+            session.setAttribute("currentUser", sessionUser);  //更新Session里的用户信息
+            return Result.success("信息修改成功！", sessionUser);
+        }
+        return Result.error("信息修改失败了！");
+
+    }
+
+    /**
+     * 登入验证
+     *
+     * @param user
+     * @return
+     */
+    @RequestMapping(value = "/user/login", method = RequestMethod.POST, produces = "application/json;charset=utf-8")
+    @ResponseBody
+    public Result loginVerify(@RequestBody User user, HttpSession session) {
+        try {
+            User data = userService.loginVerify(user);
+            //获得用户的所有信息
+            User fullDetail = userService.selectAccountNumber(user);
+            session.setAttribute("currentUser", fullDetail);  //保存到Session
+            return Result.success("恭喜你，登入成功！", data);
+        } catch (NonExistentException e) {
+            return Result.error(e.getMessage());
+        } catch (FrozenAccountsException e) {
+            return Result.error(e.getMessage());
+        }
+    }
+
+    /**
+     * 获得当前登入对象
+     *
+     * @param session
+     * @return
+     */
+    @RequestMapping(value = "/currentUser", method = RequestMethod.GET, produces = "application/json;charset=utf-8")
+    @ResponseBody
+    public Result getCurrentUser(HttpSession session) {
+        User user = (User) session.getAttribute("currentUser");
+        if (user != null) {  //存在
+            return Result.success(user);
+        } else {
+            return Result.successMessage("没有当前登入的用户");
+        }
+    }
+
+    /**
+     * 注销登入
+     *
+     * @return
+     */
+    @RequestMapping(value = "/user/logout", method = RequestMethod.GET, produces = "application/json;charset=utf-8")
+    @ResponseBody
+    public Result logoutCurrentUser(HttpSession session) {
+        if (session.getAttribute("currentUser") != null) {  //存在，删除
+            session.removeAttribute("currentUser");
+        }
+        return Result.successMessage("已注销当前用户！");
     }
 
 

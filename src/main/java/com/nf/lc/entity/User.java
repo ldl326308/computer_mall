@@ -1,5 +1,7 @@
 package com.nf.lc.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.util.Date;
 
 public class User {
@@ -13,7 +15,18 @@ public class User {
 
     private Integer userState;
 
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss" ,timezone = "GTM+8")
     private Date userCreateTime;
+
+    private String userHeadPortrait;
+
+    public String getUserHeadPortrait() {
+        return userHeadPortrait;
+    }
+
+    public void setUserHeadPortrait(String userHeadPortrait) {
+        this.userHeadPortrait = userHeadPortrait;
+    }
 
     public Integer getUserId() {
         return userId;

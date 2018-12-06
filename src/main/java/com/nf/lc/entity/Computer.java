@@ -2,6 +2,7 @@ package com.nf.lc.entity;
 
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
 
 public class Computer {
     private Integer computerId;
@@ -14,21 +15,31 @@ public class Computer {
 
     private Date computerCreateTime;
 
-    private Integer brandId;
+    private Brand brand;
 
-    private Integer typeId;
+    private Type type;
 
-    private Integer processorId;
+    private Processor processor;
 
-    private Integer memoryCapacityId;
+    private MemoryCapacity memoryCapacity;
 
-    private Integer hardDiskId;
+    private HardDisk hardDisk;
 
-    private Integer computerSystemId;
+    private ComputerSystem computerSystem;
 
-    private Integer dimensionId;
+    private Dimension dimension;
 
-    private Integer nvdiaId;
+    private Nvdia nvdia;
+
+    private List<ComputerImage> computerImageList;
+
+    public List<ComputerImage> getComputerImageList() {
+        return computerImageList;
+    }
+
+    public void setComputerImageList(List<ComputerImage> computerImageList) {
+        this.computerImageList = computerImageList;
+    }
 
     public Integer getComputerId() {
         return computerId;
@@ -43,7 +54,7 @@ public class Computer {
     }
 
     public void setComputerDescribe(String computerDescribe) {
-        this.computerDescribe = computerDescribe == null ? null : computerDescribe.trim();
+        this.computerDescribe = computerDescribe;
     }
 
     public BigDecimal getComputerPrice() {
@@ -70,67 +81,71 @@ public class Computer {
         this.computerCreateTime = computerCreateTime;
     }
 
-    public Integer getBrandId() {
-        return brandId;
+    public Brand getBrand() {
+        return brand;
     }
 
-    public void setBrandId(Integer brandId) {
-        this.brandId = brandId;
+    public void setBrand(Brand brand) {
+        this.brand = brand;
     }
 
-    public Integer getTypeId() {
-        return typeId;
+    public Type getType() {
+        return type;
     }
 
-    public void setTypeId(Integer typeId) {
-        this.typeId = typeId;
+    public void setType(Type type) {
+        this.type = type;
     }
 
-    public Integer getProcessorId() {
-        return processorId;
+    public Processor getProcessor() {
+        return processor;
     }
 
-    public void setProcessorId(Integer processorId) {
-        this.processorId = processorId;
+    public void setProcessor(Processor processor) {
+        this.processor = processor;
     }
 
-    public Integer getMemoryCapacityId() {
-        return memoryCapacityId;
+    public MemoryCapacity getMemoryCapacity() {
+        return memoryCapacity;
     }
 
-    public void setMemoryCapacityId(Integer memoryCapacityId) {
-        this.memoryCapacityId = memoryCapacityId;
+    public void setMemoryCapacity(MemoryCapacity memoryCapacity) {
+        this.memoryCapacity = memoryCapacity;
     }
 
-    public Integer getHardDiskId() {
-        return hardDiskId;
+    public HardDisk getHardDisk() {
+        return hardDisk;
     }
 
-    public void setHardDiskId(Integer hardDiskId) {
-        this.hardDiskId = hardDiskId;
+    public void setHardDisk(HardDisk hardDisk) {
+        this.hardDisk = hardDisk;
     }
 
-    public Integer getComputerSystemId() {
-        return computerSystemId;
+    public ComputerSystem getComputerSystem() {
+        return computerSystem;
     }
 
-    public void setComputerSystemId(Integer computerSystemId) {
-        this.computerSystemId = computerSystemId;
+    public void setComputerSystem(ComputerSystem computerSystem) {
+        this.computerSystem = computerSystem;
     }
 
-    public Integer getDimensionId() {
-        return dimensionId;
+    public Dimension getDimension() {
+        return dimension;
     }
 
-    public void setDimensionId(Integer dimensionId) {
-        this.dimensionId = dimensionId;
+    public void setDimension(Dimension dimension) {
+        this.dimension = dimension;
     }
 
-    public Integer getNvdiaId() {
-        return nvdiaId;
+    public Nvdia getNvdia() {
+        return nvdia;
     }
 
-    public void setNvdiaId(Integer nvdiaId) {
-        this.nvdiaId = nvdiaId;
+    public void setNvdia(Nvdia nvdia) {
+        this.nvdia = nvdia;
     }
+
+
+
+
 }

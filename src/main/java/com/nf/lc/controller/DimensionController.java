@@ -1,10 +1,10 @@
 package com.nf.lc.controller;
 
 
+import com.nf.lc.dto.Result;
 import com.nf.lc.entity.Dimension;
 import com.nf.lc.service.DimensionService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,8 +25,8 @@ public class DimensionController {
      */
     @RequestMapping(value = "/dimension/{dimensionId}" , method = RequestMethod.DELETE , produces = "application/json;charset=utf-8")
     @ResponseBody
-    public ResponseEntity deleteByPrimaryKey(@PathVariable("dimensionId") int dimensionId){
-        return dimensionService.deleteByPrimaryKey(dimensionId) > 0 ? ResponseEntity.ok("删除成功！") : ResponseEntity.ok("删除失败！");
+    public Result deleteByPrimaryKey(@PathVariable("dimensionId") int dimensionId){
+        return dimensionService.deleteByPrimaryKey(dimensionId) > 0 ? Result.successMessage("删除成功！") : Result.error("删除失败！");
     }
 
     /**
@@ -36,8 +36,8 @@ public class DimensionController {
      */
     @RequestMapping(value = "/dimension" , method = RequestMethod.POST , produces = "application/json;charset=utf-8")
     @ResponseBody
-    public ResponseEntity insert(Dimension dimension){
-        return dimensionService.insert(dimension) > 0 ? ResponseEntity.ok("添加成功！") : ResponseEntity.ok("添加失败！");
+    public Result insert(Dimension dimension){
+        return dimensionService.insert(dimension) > 0 ? Result.successMessage("添加成功！") : Result.error("添加失败！");
     }
 
     /**
@@ -47,8 +47,8 @@ public class DimensionController {
      */
     @RequestMapping(value = "/dimension/{dimensionId}" , method = RequestMethod.GET , produces = "application/json;charset=utf-8")
     @ResponseBody
-    public ResponseEntity selectByPrimaryKey(@PathVariable("dimensionId") int dimensionId){
-        return ResponseEntity.ok(dimensionService.selectByPrimaryKey(dimensionId));
+    public Result selectByPrimaryKey(@PathVariable("dimensionId") int dimensionId){
+        return Result.success(dimensionService.selectByPrimaryKey(dimensionId));
     }
 
     /**
@@ -57,8 +57,8 @@ public class DimensionController {
      */
     @RequestMapping(value = "/dimension" , method = RequestMethod.GET , produces = "application/json;charset=utf-8")
     @ResponseBody
-    public ResponseEntity selectAll(){
-        return ResponseEntity.ok(dimensionService.selectAll());
+    public Result selectAll(){
+        return Result.success(dimensionService.selectAll());
     }
 
     /**
@@ -68,8 +68,8 @@ public class DimensionController {
      */
     @RequestMapping(value = "/dimension" , method = RequestMethod.PUT , produces = "application/json;charset=utf-8")
     @ResponseBody
-    public ResponseEntity updateByPrimaryKey(Dimension dimension){
-        return dimensionService.updateByPrimaryKey(dimension) > 0 ? ResponseEntity.ok("修改成功！") : ResponseEntity.ok("修改失败！");
+    public Result updateByPrimaryKey(Dimension dimension){
+        return dimensionService.updateByPrimaryKey(dimension) > 0 ? Result.successMessage("修改成功！") : Result.error("修改失败！");
     }
 
 

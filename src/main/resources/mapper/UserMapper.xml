@@ -1,42 +1,52 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.nf.lc.dao.UserMapper">
-  <resultMap id="BaseResultMap" type="com.nf.lc.entity.User">
-    <id column="user_id" jdbcType="INTEGER" property="userId" />
-    <result column="user_account_number" jdbcType="VARCHAR" property="userAccountNumber" />
-    <result column="user_password" jdbcType="VARCHAR" property="userPassword" />
-    <result column="user_nickname" jdbcType="VARCHAR" property="userNickname" />
-    <result column="user_state" jdbcType="INTEGER" property="userState" />
-    <result column="user_create_time" jdbcType="TIMESTAMP" property="userCreateTime" />
-  </resultMap>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    <resultMap id="BaseResultMap" type="com.nf.lc.entity.User">
+        <id column="user_id" jdbcType="INTEGER" property="userId"/>
+        <result column="user_account_number" jdbcType="VARCHAR" property="userAccountNumber"/>
+        <result column="user_password" jdbcType="VARCHAR" property="userPassword"/>
+        <result column="user_nickname" jdbcType="VARCHAR" property="userNickname"/>
+        <result column="user_state" jdbcType="INTEGER" property="userState"/>
+        <result column="user_create_time" jdbcType="TIMESTAMP" property="userCreateTime"/>
+        <result column="user_head_portrait" jdbcType="VARCHAR" property="userHeadPortrait"/>
+    </resultMap>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from user
     where user_id = #{userId,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.nf.lc.entity.User">
-    insert into user (user_id, user_account_number, user_password, 
-      user_nickname, user_state, user_create_time
-      )
-    values (#{userId,jdbcType=INTEGER}, #{userAccountNumber,jdbcType=VARCHAR}, #{userPassword,jdbcType=VARCHAR}, 
-      #{userNickname,jdbcType=VARCHAR}, #{userState,jdbcType=INTEGER}, #{userCreateTime,jdbcType=TIMESTAMP}
-      )
+    <insert id="insert" parameterType="com.nf.lc.entity.User">
+    insert into user (user_account_number, user_password, user_nickname)
+    values ( #{userAccountNumber,jdbcType=VARCHAR}, #{userPassword,jdbcType=VARCHAR},
+      #{userNickname,jdbcType=VARCHAR})
   </insert>
-  <update id="updateByPrimaryKey" parameterType="com.nf.lc.entity.User">
+    <update id="updateByPrimaryKey" parameterType="com.nf.lc.entity.User">
     update user
-    set user_account_number = #{userAccountNumber,jdbcType=VARCHAR},
+    set
       user_password = #{userPassword,jdbcType=VARCHAR},
       user_nickname = #{userNickname,jdbcType=VARCHAR},
-      user_state = #{userState,jdbcType=INTEGER},
-      user_create_time = #{userCreateTime,jdbcType=TIMESTAMP}
+      user_head_portrait = #{userHeadPortrait,jdbcType=VARCHAR}
     where user_id = #{userId,jdbcType=INTEGER}
   </update>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select user_id, user_account_number, user_password, user_nickname, user_state, user_create_time
-    from user
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select * from user
     where user_id = #{userId,jdbcType=INTEGER}
   </select>
-  <select id="selectAll" resultMap="BaseResultMap">
-    select user_id, user_account_number, user_password, user_nickname, user_state, user_create_time
-    from user
+    <select id="selectAll" resultMap="BaseResultMap">
+    select *   from user
   </select>
+
+    <select id="loginVerify" parameterType="com.nf.lc.entity.User" resultMap="BaseResultMap">
+    select * from user
+    where user_account_number = #{userAccountNumber}
+    and user_password = #{userPassword}
+  </select>
+
+   <select id="selectAccountNumber" parameterType="com.nf.lc.entity.User" resultMap="BaseResultMap">
+       select * from user where user_account_number = #{userAccountNumber}
+   </select>
+
+    <select id="selectVerifyState" parameterType="com.nf.lc.entity.User" resultMap="BaseResultMap">
+        select * from user where user_account_number = #{userAccountNumber} and 	user_state = 1
+    </select>
+
 </mapper>

@@ -12,5 +12,12 @@ public interface UserMapper {
 
     List<User> selectAll();
 
+    User loginVerify(User record);
+
+    User selectAccountNumber(User record);
+
     int updateByPrimaryKey(User record);
+
+    User selectVerifyState(User record);
+
 }

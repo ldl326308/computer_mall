@@ -1,9 +1,9 @@
 package com.nf.lc.controller;
 
+import com.nf.lc.dto.Result;
 import com.nf.lc.entity.Nvdia;
 import com.nf.lc.service.NvdiaService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,8 +24,8 @@ public class NvdiaController {
      */
     @RequestMapping(value = "/nvdia", method = RequestMethod.GET, produces = "application/json;charset=utf-8")
     @ResponseBody
-    public ResponseEntity selectAll() {
-        return ResponseEntity.ok(nvdiaService.selectAll());
+    public Result selectAll() {
+        return Result.success(nvdiaService.selectAll());
     }
 
     /**
@@ -36,8 +36,8 @@ public class NvdiaController {
      */
     @RequestMapping(value = "/nvdia/{nvdiaId}", method = RequestMethod.DELETE, produces = "application/json;charset=utf-8")
     @ResponseBody
-    public ResponseEntity deleteByPrimaryKey(@PathVariable("nvdiaId") int nvdiaId) {
-        return nvdiaService.deleteByPrimaryKey(nvdiaId) > 0 ? ResponseEntity.ok("删除成功!") : ResponseEntity.ok("删除失败！");
+    public Result deleteByPrimaryKey(@PathVariable("nvdiaId") int nvdiaId) {
+        return nvdiaService.deleteByPrimaryKey(nvdiaId) > 0 ? Result.successMessage("删除成功!") : Result.error("删除失败！");
     }
 
     /**
@@ -48,8 +48,8 @@ public class NvdiaController {
      */
     @RequestMapping(value = "/nvdia", method = RequestMethod.POST, produces = "application/json;charset=utf-8")
     @ResponseBody
-    public ResponseEntity insert(Nvdia nvdia) {
-        return nvdiaService.insert(nvdia) > 0 ? ResponseEntity.ok("添加成功！") : ResponseEntity.ok("添加失败！");
+    public Result insert(Nvdia nvdia) {
+        return nvdiaService.insert(nvdia) > 0 ? Result.successMessage("添加成功！") : Result.error("添加失败！");
     }
 
     /**
@@ -60,8 +60,8 @@ public class NvdiaController {
      */
     @RequestMapping(value = "/nvdia/{nvdiaId}", method = RequestMethod.GET, produces = "application/json;charset=utf-8")
     @ResponseBody
-    public ResponseEntity selectByPrimaryKey(@PathVariable("nvdiaId") int nvdiaId) {
-        return ResponseEntity.ok(nvdiaService.selectByPrimaryKey(nvdiaId));
+    public Result selectByPrimaryKey(@PathVariable("nvdiaId") int nvdiaId) {
+        return Result.success(nvdiaService.selectByPrimaryKey(nvdiaId));
     }
 
     /**
@@ -72,8 +72,8 @@ public class NvdiaController {
      */
     @RequestMapping(value = "/nvdia", method = RequestMethod.PUT, produces = "application/json;charset=utf-8")
     @ResponseBody
-    public ResponseEntity updateByPrimaryKey(Nvdia nvdia) {
-        return nvdiaService.updateByPrimaryKey(nvdia) > 0 ? ResponseEntity.ok("修改成功！") : ResponseEntity.ok("修改失败！");
+    public Result updateByPrimaryKey(Nvdia nvdia) {
+        return nvdiaService.updateByPrimaryKey(nvdia) > 0 ? Result.successMessage("修改成功！") : Result.error("修改失败！");
     }
 
 }

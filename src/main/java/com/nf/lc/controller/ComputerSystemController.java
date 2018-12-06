@@ -1,9 +1,9 @@
 package com.nf.lc.controller;
 
+import com.nf.lc.dto.Result;
 import com.nf.lc.entity.ComputerSystem;
 import com.nf.lc.service.ComputerSystemService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,8 +24,8 @@ public class ComputerSystemController {
      */
     @RequestMapping(value = "/computerSystem/{computerSystemId}" , method = RequestMethod.DELETE , produces = "application/json;charset=utf-8")
     @ResponseBody
-    public ResponseEntity deleteByPrimaryKey(@PathVariable("computerSystemId") int computerSystemId){
-        return computerSystemService.deleteByPrimaryKey(computerSystemId) > 0 ? ResponseEntity.ok("删除成功！") : ResponseEntity.ok("删除失败！");
+    public Result deleteByPrimaryKey(@PathVariable("computerSystemId") int computerSystemId){
+        return computerSystemService.deleteByPrimaryKey(computerSystemId) > 0 ? Result.successMessage("删除成功！") : Result.error("删除失败！");
     }
 
     /**
@@ -35,8 +35,8 @@ public class ComputerSystemController {
      */
     @RequestMapping(value = "/computerSystem" , method = RequestMethod.POST , produces = "application/json;charset=utf-8")
     @ResponseBody
-    public ResponseEntity insert(ComputerSystem computerSystem){
-        return computerSystemService.insert(computerSystem) > 0 ? ResponseEntity.ok("添加成功！") : ResponseEntity.ok("添加失败！");
+    public Result insert(ComputerSystem computerSystem){
+        return computerSystemService.insert(computerSystem) > 0 ? Result.successMessage("添加成功！") : Result.error("添加失败！");
     }
 
     /**
@@ -46,8 +46,8 @@ public class ComputerSystemController {
      */
     @RequestMapping(value = "/computerSystem/{computerSystemId}" , method = RequestMethod.GET , produces = "application/json;charset=utf-8")
     @ResponseBody
-    public ResponseEntity selectByPrimaryKey(@PathVariable("computerSystemId") int computerSystemId){
-        return ResponseEntity.ok(computerSystemService.selectByPrimaryKey(computerSystemId));
+    public Result selectByPrimaryKey(@PathVariable("computerSystemId") int computerSystemId){
+        return Result.success(computerSystemService.selectByPrimaryKey(computerSystemId));
     }
 
     /**
@@ -56,8 +56,8 @@ public class ComputerSystemController {
      */
     @RequestMapping(value = "/computerSystem" , method = RequestMethod.GET , produces = "application/json;charset=utf-8")
     @ResponseBody
-    public ResponseEntity selectAll(){
-        return ResponseEntity.ok(computerSystemService.selectAll());
+    public Result selectAll(){
+        return Result.success(computerSystemService.selectAll());
     }
 
     /**
@@ -67,8 +67,8 @@ public class ComputerSystemController {
      */
     @RequestMapping(value = "/computerSystem" , method = RequestMethod.PUT , produces = "application/json;charset=utf-8")
     @ResponseBody
-    public ResponseEntity updateByPrimaryKey(ComputerSystem computerSystem){
-        return computerSystemService.updateByPrimaryKey(computerSystem) > 0 ? ResponseEntity.ok("修改成功！") : ResponseEntity.ok("修改失败！");
+    public Result updateByPrimaryKey(ComputerSystem computerSystem){
+        return computerSystemService.updateByPrimaryKey(computerSystem) > 0 ? Result.successMessage("修改成功！") : Result.error("修改失败！");
     }
 
 

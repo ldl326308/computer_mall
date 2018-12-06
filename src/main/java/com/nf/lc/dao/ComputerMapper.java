@@ -1,6 +1,8 @@
 package com.nf.lc.dao;
 
 import com.nf.lc.entity.Computer;
+import com.nf.lc.entity.MyPageHelper;
+
 import java.util.List;
 
 public interface ComputerMapper {
@@ -10,7 +12,9 @@ public interface ComputerMapper {
 
     Computer selectByPrimaryKey(Integer computerId);
 
-    List<Computer> selectAll();
+    List<Computer> selectAll(MyPageHelper myPageHelper);
 
     int updateByPrimaryKey(Computer record);
+
+    int selectCount();
 }

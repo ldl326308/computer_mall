@@ -40,6 +40,9 @@
       <param-name>contextConfigLocation</param-name>
       <param-value>classpath:spring-web.xml</param-value>
     </init-param>
+    <multipart-config>
+      <max-file-size>200000</max-file-size>
+    </multipart-config>
   </servlet>
   <servlet-mapping>
     <servlet-name>app</servlet-name>

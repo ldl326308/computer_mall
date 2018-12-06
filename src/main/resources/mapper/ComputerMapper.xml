@@ -1,26 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.nf.lc.dao.ComputerMapper">
-  <resultMap id="BaseResultMap" type="com.nf.lc.entity.Computer">
-    <id column="computer_id" jdbcType="INTEGER" property="computerId" />
-    <result column="computer_describe" jdbcType="VARCHAR" property="computerDescribe" />
-    <result column="computer_price" jdbcType="DECIMAL" property="computerPrice" />
-    <result column="computer_state" jdbcType="INTEGER" property="computerState" />
-    <result column="computer_create_time" jdbcType="TIMESTAMP" property="computerCreateTime" />
-    <result column="brand_id" jdbcType="INTEGER" property="brandId" />
-    <result column="type_id" jdbcType="INTEGER" property="typeId" />
-    <result column="processor_id" jdbcType="INTEGER" property="processorId" />
-    <result column="memory_capacity_id" jdbcType="INTEGER" property="memoryCapacityId" />
-    <result column="hard_disk_id" jdbcType="INTEGER" property="hardDiskId" />
-    <result column="computer_system_id" jdbcType="INTEGER" property="computerSystemId" />
-    <result column="dimension_id" jdbcType="INTEGER" property="dimensionId" />
-    <result column="nvdia_id" jdbcType="INTEGER" property="nvdiaId" />
-  </resultMap>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    <resultMap id="BaseResultMap" type="com.nf.lc.entity.Computer">
+        <id column="computer_id" jdbcType="INTEGER" property="computerId"/>
+        <result column="computer_describe" jdbcType="VARCHAR" property="computerDescribe"/>
+        <result column="computer_price" jdbcType="DECIMAL" property="computerPrice"/>
+        <result column="computer_state" jdbcType="INTEGER" property="computerState"/>
+        <result column="computer_create_time" jdbcType="TIMESTAMP" property="computerCreateTime"/>
+        <association property="brand" resultMap="com.nf.lc.dao.BrandMapper.BaseResultMap"></association>
+        <association property="type" resultMap="com.nf.lc.dao.TypeMapper.BaseResultMap"></association>
+        <association property="processor" resultMap="com.nf.lc.dao.ProcessorMapper.BaseResultMap"></association>
+        <association property="memoryCapacity" resultMap="com.nf.lc.dao.MemoryCapacityMapper.BaseResultMap"></association>
+        <association property="hardDisk" resultMap="com.nf.lc.dao.HardDiskMapper.BaseResultMap"></association>
+        <association property="computerSystem" resultMap="com.nf.lc.dao.ComputerSystemMapper.BaseResultMap"></association>
+        <association property="dimension" resultMap="com.nf.lc.dao.DimensionMapper.BaseResultMap"></association>
+        <association property="nvdia" resultMap="com.nf.lc.dao.NvdiaMapper.BaseResultMap"></association>
+        <collection property="computerImageList" ofType="com.nf.lc.entity.ComputerImage" resultMap="com.nf.lc.dao.ComputerImageMapper.BaseResultMap">
+            <id column="computer_image_id" jdbcType="INTEGER" property="computerImageId" />
+            <result column="computer_id" jdbcType="INTEGER" property="computerId" />
+            <result column="computer_image_url" jdbcType="VARCHAR" property="computerImageUrl" />
+        </collection>
+
+    </resultMap>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from computer
     where computer_id = #{computerId,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.nf.lc.entity.Computer">
+    <insert id="insert" parameterType="com.nf.lc.entity.Computer">
     insert into computer (computer_id, computer_describe, computer_price, 
       computer_state, computer_create_time, brand_id, 
       type_id, processor_id, memory_capacity_id, 
@@ -32,7 +38,7 @@
       #{hardDiskId,jdbcType=INTEGER}, #{computerSystemId,jdbcType=INTEGER}, #{dimensionId,jdbcType=INTEGER}, 
       #{nvdiaId,jdbcType=INTEGER})
   </insert>
-  <update id="updateByPrimaryKey" parameterType="com.nf.lc.entity.Computer">
+    <update id="updateByPrimaryKey" parameterType="com.nf.lc.entity.Computer">
     update computer
     set computer_describe = #{computerDescribe,jdbcType=VARCHAR},
       computer_price = #{computerPrice,jdbcType=DECIMAL},
@@ -48,17 +54,29 @@
       nvdia_id = #{nvdiaId,jdbcType=INTEGER}
     where computer_id = #{computerId,jdbcType=INTEGER}
   </update>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select computer_id, computer_describe, computer_price, computer_state, computer_create_time, 
     brand_id, type_id, processor_id, memory_capacity_id, hard_disk_id, computer_system_id, 
     dimension_id, nvdia_id
     from computer
     where computer_id = #{computerId,jdbcType=INTEGER}
   </select>
-  <select id="selectAll" resultMap="BaseResultMap">
-    select computer_id, computer_describe, computer_price, computer_state, computer_create_time, 
-    brand_id, type_id, processor_id, memory_capacity_id, hard_disk_id, computer_system_id, 
-    dimension_id, nvdia_id
-    from computer
+    <select id="selectAll" parameterType="com.nf.lc.entity.MyPageHelper" resultMap="BaseResultMap">
+     select * from computer
+	inner join brand on computer.brand_id = brand.brand_id
+	inner join `type` on computer.type_id = `type`.type_id
+	inner join processor on computer.processor_id = processor.processor_id
+	inner join memory_capacity on computer.memory_capacity_id = memory_capacity.memory_capacity_id
+	inner join hard_disk on computer.hard_disk_id = hard_disk.hard_disk_id
+	inner join computer_system on computer.computer_system_id = computer_system.computer_system_id
+	inner join `dimension` on computer.dimension_id = computer.dimension_id
+	inner join `nvdia` on computer.nvdia_id = `nvdia`.nvdia_id
+	inner join computer_image on computer.computer_id = computer_image.computer_id group by computer.computer_id
+	limit #{page},#{count}
   </select>
+
+   <select id="selectCount" resultType="int">
+       select count(*) from computer
+   </select>
+
 </mapper>

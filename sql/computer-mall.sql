@@ -11,12 +11,17 @@ create table `user`
 	user_password varchar(16) not null comment'登入密码',
 	user_nickname varchar(16) not null comment'用户昵称',
 	user_state int default 1 comment'用户状态',  # 1 正常 0 冻结
-	user_create_time datetime default now() comment'用户创建时间'
+	user_create_time datetime default now() comment'用户创建时间',
+	user_head_portrait varchar(100) default '/images/head_portrait/599a521472424.jpg'
 );
 
 #添加数据
 insert into `user`(user_account_number,user_password,user_nickname)
 	values('ldl326308','12345','刘大仙'),('ch1224','12345','CH');
+	
+	
+	
+	
 
 # 查询所有用户 user
 select * from `user`;
@@ -57,7 +62,7 @@ create table `brand`
 
 #数据录入
 insert into `brand`(brand_name,brand_title,brand_image) 
-	values('Lenovo','联想(Lenovo)','/images/brand/15668b30fabe0850.jpg'),
+values('Lenovo','联想(Lenovo)','/images/brand/15668b30fabe0850.jpg'),
 	('DELL','戴尔(DELL)','/images/brand/59804402N1c4e5159.jpg'),
 	('HP','惠普(HP)','/images/brand/598035b4N9cd3ed1e.jpg'),
 	('ThinkPad','ThinkPad','/images/brand/5a533a0eNdb977d35.png'),
@@ -298,6 +303,7 @@ insert into `computer_image`(computer_id,computer_image_url)
 
 select * from `computer`c inner join `computer_image` co on c.computer_id = co.computer_id;
 
+select * from computer_image where computer_id = 1;
 
 # 收货地址表 address
 drop table if exists `address`;
@@ -337,6 +343,11 @@ create table `shopping_cart`
 #insert into `shopping_cart`(computer_id,computer_count,shopping_cart_state,user_id)
 #	values(1,2,0,1);
 
+
+select * from shopping_cart 
+	inner join computer on shopping_cart.computer_id = computer.computer_id 
+	inner join `user` on shopping_cart.user_id = `user`.user_id;
+
 select * from `shopping_cart`;
 
 
@@ -361,8 +372,20 @@ create table `order`
 
 select * from `order`;
 
+select * from computer;
 
-
+#查询电脑信息
+select * from computer 
+	inner join brand on computer.brand_id = brand.brand_id
+	inner join `type` on computer.type_id = `type`.type_id
+	inner join processor on computer.processor_id = processor.processor_id
+	inner join memory_capacity on computer.memory_capacity_id = memory_capacity.memory_capacity_id
+	inner join hard_disk on computer.hard_disk_id = hard_disk.hard_disk_id
+	inner join computer_system on computer.computer_system_id = computer_system.computer_system_id
+	inner join `dimension` on computer.dimension_id = computer.dimension_id
+	inner join `nvdia` on computer.nvdia_id = `nvdia`.nvdia_id
+	inner join computer_image on computer.computer_id = computer_image.computer_id
+	 where computer.computer_id = 1;
 
 
 

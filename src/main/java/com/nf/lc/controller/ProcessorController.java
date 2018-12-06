@@ -1,9 +1,9 @@
 package com.nf.lc.controller;
 
+import com.nf.lc.dto.Result;
 import com.nf.lc.entity.Processor;
 import com.nf.lc.service.ProcessorService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,8 +20,8 @@ public class ProcessorController {
      */
     @RequestMapping(value = "/processor" , method = RequestMethod.GET , produces = "application/json;charset=utf-8")
     @ResponseBody
-    public ResponseEntity selectAll(){
-        return ResponseEntity.ok(processorService.selectAll());
+    public Result selectAll(){
+        return Result.success(processorService.selectAll());
     }
 
     /**
@@ -31,8 +31,8 @@ public class ProcessorController {
      */
     @RequestMapping(value = "/processor/{processorId}" , method = RequestMethod.DELETE , produces = "application/json;charset=utf-8")
     @ResponseBody
-    public ResponseEntity deleteByPrimaryKey(@PathVariable("processorId") int processorId){
-        return processorService.deleteByPrimaryKey(processorId) > 0 ? ResponseEntity.ok("删除成功！") : ResponseEntity.ok("删除失败！");
+    public Result deleteByPrimaryKey(@PathVariable("processorId") int processorId){
+        return processorService.deleteByPrimaryKey(processorId) > 0 ? Result.successMessage("删除成功！") : Result.error("删除失败！");
     }
 
     /**
@@ -42,8 +42,8 @@ public class ProcessorController {
      */
     @RequestMapping(value = "/processor" , method = RequestMethod.POST , produces = "application/json;charset=utf-8")
     @ResponseBody
-    public ResponseEntity insert(Processor processor){
-        return processorService.insert(processor) > 0 ? ResponseEntity.ok("添加成功！") : ResponseEntity.ok("添加失败！");
+    public Result insert(Processor processor){
+        return processorService.insert(processor) > 0 ? Result.successMessage("添加成功！") : Result.error("添加失败！");
     }
 
     /**
@@ -53,8 +53,8 @@ public class ProcessorController {
      */
     @RequestMapping(value = "/processor/{processorId}" , method = RequestMethod.GET , produces = "application/json;charset=utf-8")
     @ResponseBody
-    public ResponseEntity selectByPrimaryKey(@PathVariable("processorId") int processorId){
-        return ResponseEntity.ok(processorService.selectByPrimaryKey(processorId));
+    public Result selectByPrimaryKey(@PathVariable("processorId") int processorId){
+        return Result.success(processorService.selectByPrimaryKey(processorId));
     }
 
     /**
@@ -64,7 +64,7 @@ public class ProcessorController {
      */
     @RequestMapping(value = "/processor" , method = RequestMethod.PUT , produces = "application/json;charset=utf-8")
     @ResponseBody
-    public ResponseEntity updateByPrimaryKey(Processor processor){
-        return processorService.updateByPrimaryKey(processor) > 0 ? ResponseEntity.ok("修改成功！") : ResponseEntity.ok("修改失败！");
+    public Result updateByPrimaryKey(Processor processor){
+        return processorService.updateByPrimaryKey(processor) > 0 ? Result.successMessage("修改成功！") : Result.error("修改失败！");
     }
 }
