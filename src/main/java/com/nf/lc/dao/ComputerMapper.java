@@ -1,8 +1,8 @@
 package com.nf.lc.dao;
 
 import com.nf.lc.entity.Computer;
-import com.nf.lc.entity.MyPageHelper;
-
+import com.nf.lc.entity.QueryDataParameter;
+import com.nf.lc.entity.SelectLikePrams;
 import java.util.List;
 
 public interface ComputerMapper {
@@ -12,9 +12,13 @@ public interface ComputerMapper {
 
     Computer selectByPrimaryKey(Integer computerId);
 
-    List<Computer> selectAll(MyPageHelper myPageHelper);
+    List<Computer> selectAll(QueryDataParameter queryDataParameter);
 
     int updateByPrimaryKey(Computer record);
 
-    int selectCount();
+    int selectCount(QueryDataParameter queryDataParameter);
+
+    List<Computer> selectLikeDescribe(SelectLikePrams selectLikePrams);
+
+    int selectLikeDescribeCount(SelectLikePrams selectLikePrams);
 }

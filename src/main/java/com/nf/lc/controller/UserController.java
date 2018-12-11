@@ -11,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
+import java.util.List;
 
 
 @Controller
@@ -27,7 +28,8 @@ public class UserController {
     @RequestMapping(value = "/user", method = RequestMethod.GET, produces = "application/json;charset=utf-8")
     @ResponseBody
     public Result selectAll() {
-        return Result.success(userService.selectAll());
+        List<User> users = userService.selectAll();
+        return Result.success(users,users.size());
     }
 
     /**
@@ -56,7 +58,7 @@ public class UserController {
             //根据注册传来的账号进行查询，并保存到Session中
             User fullDetail = userService.selectAccountNumber(user);
             session.setAttribute("currentUser", fullDetail);
-            return Result.success("恭喜您注册成功，已为您自动登入！", fullDetail);
+            return Result.success("恭喜您注册成功，已为您自动登入！", fullDetail,0);
         } catch (FailureException e) {
             return Result.error(e.getMessage());
         }
@@ -91,7 +93,7 @@ public class UserController {
 
         if (userService.updateByPrimaryKey(sessionUser) > 0) {  //修改成功
             session.setAttribute("currentUser", sessionUser);  //更新Session里的用户信息
-            return Result.success("信息修改成功！", sessionUser);
+            return Result.success("信息修改成功！", sessionUser,0);
         }
         return Result.error("信息修改失败了！");
 
@@ -111,7 +113,7 @@ public class UserController {
             //获得用户的所有信息
             User fullDetail = userService.selectAccountNumber(user);
             session.setAttribute("currentUser", fullDetail);  //保存到Session
-            return Result.success("恭喜你，登入成功！", data);
+            return Result.success("恭喜你，登入成功！", data,0);
         } catch (NonExistentException e) {
             return Result.error(e.getMessage());
         } catch (FrozenAccountsException e) {

@@ -2,7 +2,8 @@ package com.nf.lc.controller;
 
 import com.nf.lc.dto.Result;
 import com.nf.lc.entity.Computer;
-import com.nf.lc.entity.MyPageHelper;
+import com.nf.lc.entity.QueryDataParameter;
+import com.nf.lc.entity.SelectLikePrams;
 import com.nf.lc.exception.EmptyException;
 import com.nf.lc.service.ComputerService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,26 +11,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 
+
 @Controller
 public class ComputerController {
 
     @Autowired
     private ComputerService computerService;
-
-    /**
-     * 查询所有computer数据
-     *
-     * @return
-     */
-    @RequestMapping(value = "/computer", method = RequestMethod.GET, produces = "application/json;charset=utf-8")
-    @ResponseBody
-    public Result selectAll(@RequestParam("page") int page , @RequestParam("count") int count) {
-        try {
-            return Result.success(computerService.selectAll(new MyPageHelper(page,count)));
-        } catch (EmptyException e) {
-            return Result.error("没有找到数据！");
-        }
-    }
 
     /**
      * 删除单个
@@ -64,7 +51,11 @@ public class ComputerController {
     @RequestMapping(value = "/computer/{computerId}", method = RequestMethod.GET, produces = "application/json;charset=utf-8")
     @ResponseBody
     public Result selectByPrimaryKey(@PathVariable("computerId") int computerId) {
-        return Result.success(computerService.selectByPrimaryKey(computerId));
+        try {
+            return Result.success(computerService.selectByPrimaryKey(computerId));
+        } catch (EmptyException e) {
+            return Result.error(e.getMessage());
+        }
     }
 
     /**
@@ -79,14 +70,36 @@ public class ComputerController {
         return computerService.updateByPrimaryKey(computer) > 0 ? Result.successMessage("修改成功！") : Result.error("修改失败！");
     }
 
+
     /**
-     * 查询商品数量
+     * 查询所有computer数据
+     *
      * @return
      */
-    @RequestMapping(value = "/computer/count" , method = RequestMethod.GET , produces = "application/json;charset=utf-8")
+    @RequestMapping(value = "/computer/query", method = RequestMethod.POST, produces = "application/json;charset=utf-8")
     @ResponseBody
-    public Result selectCount(){
-        return Result.success(computerService.selectCount());
+    public Result selectCount(@RequestBody QueryDataParameter queryDataParameter){
+        try {
+            return  Result.success(computerService.selectAll(queryDataParameter),computerService.selectCount(queryDataParameter));
+        } catch (EmptyException e) {
+            return Result.successMessage(e.getMessage()); //成功，没有数据返回
+        }
+    }
+
+    /**
+     * 模糊搜索
+     *
+     * @return
+     */
+    @RequestMapping(value = "/computer/query/like", method = RequestMethod.POST, produces = "application/json;charset=utf-8")
+    @ResponseBody
+    public Result selectLikeDescribe(@RequestBody SelectLikePrams selectLikePrams){
+        try {
+            return Result.success(computerService.selectLikeDescribe(selectLikePrams),computerService.selectLikeDescribeCount(selectLikePrams));
+        } catch (EmptyException e) {
+            return Result.successMessage("没有数据");
+        }
+
     }
 
 }

@@ -21,6 +21,7 @@ public class ComputerServiceTest {
 
     @Test
     public void deleteByPrimaryKey() {
+
     }
 
     @Test
@@ -29,24 +30,13 @@ public class ComputerServiceTest {
 
     @Test
     public void selectByPrimaryKey() {
+        Computer computer = computerMapper.selectByPrimaryKey(1);
+        System.out.println(computer.getComputerImageList());
+
     }
 
     @Test
     public void selectAll() {
-        assert computerMapper.selectAll(new MyPageHelper(0,10)) != null;
-        assert computerMapper.selectAll(new MyPageHelper(0,10)).size() == 10;
-        for (Computer computer : computerMapper.selectAll(new MyPageHelper(0,20))) {
-            System.out.println(computer.getComputerDescribe());
-            System.out.println(computer.getComputerPrice());
-            System.out.println("品牌："+computer.getBrand().getBrandName());
-            System.out.println("系统："+computer.getComputerSystem().getComputerSystemName());
-            System.out.println("图片路径：");
-            for (ComputerImage computerImage : computer.getComputerImageList()) {
-                System.out.println("  "+computerImage.getComputerImageUrl());
-            }
-            break;
-        }
-
     }
 
     @Test

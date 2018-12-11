@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import static com.nf.lc.dto.Result.success;
+import java.util.List;
 
 
 @Controller
@@ -24,7 +24,8 @@ public class BrandController {
     @RequestMapping(value = "/brand", method = RequestMethod.GET, produces = "application/json;charset=utf-8")
     @ResponseBody
     public Result selectAll() {
-        return Result.success(brandService.selectAll());
+        List<Brand> brands = brandService.selectAll();
+        return Result.success(brands,brands.size());
     }
 
     /**
@@ -60,7 +61,7 @@ public class BrandController {
     @RequestMapping(value = "/brand/{brandId}", method = RequestMethod.GET, produces = "application/json;charset=utf-8")
     @ResponseBody
     public Result selectByPrimaryKey(@PathVariable("brandId") int brandId) {
-        return success(brandService.selectByPrimaryKey(brandId));
+        return Result.success(brandService.selectByPrimaryKey(brandId));
     }
 
     /**

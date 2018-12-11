@@ -11,7 +11,7 @@ public interface UserServiceImp {
 
     int deleteByPrimaryKey(Integer userId);
 
-    int insert(User record) throws FailureException;
+    void insert(User record) throws FailureException;
 
     User selectByPrimaryKey(Integer userId);
 

@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.util.List;
+
 
 @Controller
 public class HardDiskController {
@@ -57,7 +59,8 @@ public class HardDiskController {
     @RequestMapping(value = "/hardDisk" , method = RequestMethod.GET , produces = "application/json;charset=utf-8")
     @ResponseBody
     public Result selectAll(){
-        return Result.success(hardDiskService.selectAll());
+        List<HardDisk> hardDisks = hardDiskService.selectAll();
+        return Result.success(hardDisks,hardDisks.size());
     }
 
     /**

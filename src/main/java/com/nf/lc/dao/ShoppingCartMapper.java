@@ -13,4 +13,7 @@ public interface ShoppingCartMapper {
     List<ShoppingCart> selectAll();
 
     int updateByPrimaryKey(ShoppingCart record);
+
+    ShoppingCart selectShoppingCartIsComputerIdAndUserId(ShoppingCart shoppingCart);
+
 }

@@ -55,28 +55,116 @@
     where computer_id = #{computerId,jdbcType=INTEGER}
   </update>
     <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select computer_id, computer_describe, computer_price, computer_state, computer_create_time, 
-    brand_id, type_id, processor_id, memory_capacity_id, hard_disk_id, computer_system_id, 
-    dimension_id, nvdia_id
-    from computer
-    where computer_id = #{computerId,jdbcType=INTEGER}
+   select * from computer inner join brand on computer.brand_id = brand.brand_id
+    inner join `type` on computer.type_id = `type`.type_id
+    inner join processor on computer.processor_id = processor.processor_id
+    inner join memory_capacity on computer.memory_capacity_id = memory_capacity.memory_capacity_id
+    inner join hard_disk on computer.hard_disk_id = hard_disk.hard_disk_id
+    inner join computer_system on computer.computer_system_id = computer_system.computer_system_id
+     inner join `dimension` on dimension.dimension_id = computer.dimension_id
+     inner join `nvdia` on computer.nvdia_id = `nvdia`.nvdia_id
+     inner join computer_image on computer.computer_id = computer_image.computer_id
+      where computer.computer_id = #{computerId,jdbcType=INTEGER}
   </select>
-    <select id="selectAll" parameterType="com.nf.lc.entity.MyPageHelper" resultMap="BaseResultMap">
-     select * from computer
+
+    <select id="selectAll" parameterType="com.nf.lc.entity.QueryDataParameter" resultMap="BaseResultMap">
+    select * from computer
 	inner join brand on computer.brand_id = brand.brand_id
 	inner join `type` on computer.type_id = `type`.type_id
 	inner join processor on computer.processor_id = processor.processor_id
 	inner join memory_capacity on computer.memory_capacity_id = memory_capacity.memory_capacity_id
 	inner join hard_disk on computer.hard_disk_id = hard_disk.hard_disk_id
 	inner join computer_system on computer.computer_system_id = computer_system.computer_system_id
-	inner join `dimension` on computer.dimension_id = computer.dimension_id
+	inner join `dimension` on dimension.dimension_id = computer.dimension_id
 	inner join `nvdia` on computer.nvdia_id = `nvdia`.nvdia_id
-	inner join computer_image on computer.computer_id = computer_image.computer_id group by computer.computer_id
+	inner join computer_image on computer.computer_id = computer_image.computer_id
+     <where>
+        <if test="brand != 0">
+           and  brand.brand_id = #{brand}
+        </if>
+         <if test="type != 0">
+            and  `type`.type_id = #{type}
+         </if>
+         <if test="processor != 0">
+             and  processor.processor_id = #{processor}
+         </if>
+         <if test="memoryCapacity != 0">
+             and  memory_capacity.memory_capacity_id =  #{memoryCapacity}
+         </if>
+         <if test="hardDisk != 0">
+             and  hard_disk.hard_disk_id = #{hardDisk}
+         </if>
+         <if test="computerSystem != 0">
+             and  computer_system.computer_system_id = #{computerSystem}
+         </if>
+         <if test="dimension">
+             and  `dimension`.dimension_id = #{dimension}
+         </if>
+         <if test="nvdia">
+             and  nvdia.nvdia_id = #{nvdia}
+         </if>
+     </where>
+	group by computer.computer_id
 	limit #{page},#{count}
-  </select>
+    </select>
 
-   <select id="selectCount" resultType="int">
-       select count(*) from computer
-   </select>
+    <select id="selectCount" parameterType="com.nf.lc.entity.QueryDataParameter"
+            resultType="int">
+        select count(*)/3 from computer
+        inner join brand on computer.brand_id = brand.brand_id
+        inner join `type` on computer.type_id = `type`.type_id
+        inner join processor on computer.processor_id = processor.processor_id
+        inner join memory_capacity on computer.memory_capacity_id = memory_capacity.memory_capacity_id
+        inner join hard_disk on computer.hard_disk_id = hard_disk.hard_disk_id
+        inner join computer_system on computer.computer_system_id = computer_system.computer_system_id
+        inner join `dimension` on dimension.dimension_id = computer.dimension_id
+        inner join `nvdia` on computer.nvdia_id = `nvdia`.nvdia_id
+        inner join computer_image on computer.computer_id = computer_image.computer_id
+        <where>
+            <if test="brand != 0">
+                and brand.brand_id = #{brand}
+            </if>
+            <if test="type != 0">
+                and `type`.type_id = #{type}
+            </if>
+            <if test="processor != 0">
+                and processor.processor_id = #{processor}
+            </if>
+            <if test="memoryCapacity != 0">
+                and memory_capacity.memory_capacity_id =  #{memoryCapacity}
+            </if>
+            <if test="hardDisk != 0">
+                and hard_disk.hard_disk_id = #{hardDisk}
+            </if>
+            <if test="computerSystem != 0">
+                and computer_system.computer_system_id = #{computerSystem}
+            </if>
+            <if test="dimension">
+                and `dimension`.dimension_id = #{dimension}
+            </if>
+            <if test="nvdia">
+                and  nvdia.nvdia_id = #{nvdia}
+            </if>
+        </where>
+    </select>
 
+
+    <select id="selectLikeDescribe" resultMap="BaseResultMap" parameterType="com.nf.lc.entity.SelectLikePrams">
+        select * from computer inner join brand on computer.brand_id = brand.brand_id
+        inner join `type` on computer.type_id = `type`.type_id
+        inner join processor on computer.processor_id = processor.processor_id
+        inner join memory_capacity on computer.memory_capacity_id = memory_capacity.memory_capacity_id
+        inner join hard_disk on computer.hard_disk_id = hard_disk.hard_disk_id
+        inner join computer_system on computer.computer_system_id = computer_system.computer_system_id
+         inner join `dimension` on dimension.dimension_id = computer.dimension_id
+         inner join `nvdia` on computer.nvdia_id = `nvdia`.nvdia_id
+         inner join computer_image on computer.computer_id = computer_image.computer_id
+         group by computer.computer_id
+         having  computer.computer_describe like #{likeStr} limit #{page},#{count}
+    </select>
+
+    <select id="selectLikeDescribeCount" resultType="int"  parameterType="com.nf.lc.entity.SelectLikePrams">
+        select count(*) from `computer`
+        where computer.computer_describe like #{likeStr}
+    </select>
 </mapper>

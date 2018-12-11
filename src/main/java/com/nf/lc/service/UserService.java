@@ -1,6 +1,5 @@
 package com.nf.lc.service;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreType;
 import com.nf.lc.dao.UserMapper;
 import com.nf.lc.entity.User;
 import com.nf.lc.exception.FailureException;
@@ -11,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+
 @Service
 public class UserService implements UserServiceImp {
 
@@ -24,16 +24,13 @@ public class UserService implements UserServiceImp {
     }
 
     @Override
-    public int insert(User record) throws FailureException {
+    public void insert(User record) throws FailureException {
 
         //该账号被注册
-        if(userMapper.selectAccountNumber(record)!=null){
+        if (userMapper.selectAccountNumber(record) != null) {
             throw new FailureException("注册失败，该账号已被注册！");
-        }else {
-            int count = userMapper.insert(record);
-            if (count > 0) {
-                return count;
-            } else {
+        } else {
+            if (userMapper.insert(record) < 0) {
                 throw new FailureException("意料之外的错误，请联系S3S147班LC程序员！");
             }
         }
@@ -54,7 +51,7 @@ public class UserService implements UserServiceImp {
         if (userMapper.loginVerify(record) != null) { //验证通过，账号和密码都正确
             //验证该用户状态是否为冻结
             User user = userMapper.selectVerifyState(record);
-            if(user != null){
+            if (user != null) {
                 return user;
             }
             throw new FrozenAccountsException("登入失败，该账号已经冻结！");

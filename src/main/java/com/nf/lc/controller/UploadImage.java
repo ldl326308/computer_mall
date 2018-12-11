@@ -62,7 +62,7 @@ public class UploadImage {
         }else{
             return Result.error("未接收到文件信息，上传失败！");
         }
-        return Result.success("上传成功！",src);
+        return Result.success("上传成功！",src,0);
     }
 
 }

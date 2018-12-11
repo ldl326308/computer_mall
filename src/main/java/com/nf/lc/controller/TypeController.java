@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 
 @Controller
 public class TypeController {
@@ -22,7 +24,8 @@ public class TypeController {
     @RequestMapping(value = "/type", method = RequestMethod.GET, produces = "application/json;charset=utf-8")
     @ResponseBody
     public Result selectAll() {
-        return Result.success(typeService.selectAll());
+        List<Type> types = typeService.selectAll();
+        return Result.success(types,types.size());
     }
 
     /**

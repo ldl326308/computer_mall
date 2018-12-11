@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.util.List;
+
 @Controller
 public class MemoryCapacityController {
 
@@ -56,7 +58,8 @@ public class MemoryCapacityController {
     @RequestMapping(value = "/memoryCapacity" , method = RequestMethod.GET , produces = "application/json;charset=utf-8")
     @ResponseBody
     public Result selectAll(){
-        return Result.success(memoryCapacityService.selectAll());
+        List<MemoryCapacity> memoryCapacities = memoryCapacityService.selectAll();
+        return Result.success(memoryCapacities,memoryCapacities.size());
     }
 
     /**

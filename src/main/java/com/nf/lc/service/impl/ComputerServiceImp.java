@@ -1,7 +1,8 @@
 package com.nf.lc.service.impl;
 
 import com.nf.lc.entity.Computer;
-import com.nf.lc.entity.MyPageHelper;
+import com.nf.lc.entity.QueryDataParameter;
+import com.nf.lc.entity.SelectLikePrams;
 import com.nf.lc.exception.EmptyException;
 
 import java.util.List;
@@ -11,11 +12,15 @@ public interface ComputerServiceImp {
 
     int insert(Computer record);
 
-    Computer selectByPrimaryKey(Integer computerId);
+    Computer selectByPrimaryKey(Integer computerId) throws EmptyException;
 
-    List<Computer> selectAll(MyPageHelper myPageHelper) throws EmptyException;
+    List<Computer> selectAll(QueryDataParameter queryDataParameter) throws EmptyException;
 
     int updateByPrimaryKey(Computer record);
 
-    int selectCount();
+    int selectCount(QueryDataParameter queryDataParameter);
+
+    List<Computer> selectLikeDescribe(SelectLikePrams selectLikePrams) throws EmptyException;
+
+    int selectLikeDescribeCount(SelectLikePrams selectLikePrams);
 }

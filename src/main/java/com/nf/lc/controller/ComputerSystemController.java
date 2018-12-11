@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.util.List;
+
 
 @Controller
 public class ComputerSystemController {
@@ -57,7 +59,8 @@ public class ComputerSystemController {
     @RequestMapping(value = "/computerSystem" , method = RequestMethod.GET , produces = "application/json;charset=utf-8")
     @ResponseBody
     public Result selectAll(){
-        return Result.success(computerSystemService.selectAll());
+        List<ComputerSystem> computerSystems = computerSystemService.selectAll();
+        return Result.success(computerSystems,computerSystems.size());
     }
 
     /**

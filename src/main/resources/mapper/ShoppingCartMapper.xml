@@ -13,17 +13,13 @@
     where shopping_id = #{shoppingId,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.nf.lc.entity.ShoppingCart">
-    insert into shopping_cart (shopping_id, computer_id, computer_count, 
-      shopping_cart_state, user_id)
-    values (#{shoppingId,jdbcType=INTEGER}, #{computerId,jdbcType=INTEGER}, #{computerCount,jdbcType=INTEGER}, 
-      #{shoppingCartState,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER})
+    insert into shopping_cart (computer_id, computer_count, user_id)
+    values (#{computerId,jdbcType=INTEGER}, #{computerCount,jdbcType=INTEGER},
+     #{userId,jdbcType=INTEGER})
   </insert>
   <update id="updateByPrimaryKey" parameterType="com.nf.lc.entity.ShoppingCart">
     update shopping_cart
-    set computer_id = #{computerId,jdbcType=INTEGER},
-      computer_count = #{computerCount,jdbcType=INTEGER},
-      shopping_cart_state = #{shoppingCartState,jdbcType=INTEGER},
-      user_id = #{userId,jdbcType=INTEGER}
+    set  computer_count = #{computerCount,jdbcType=INTEGER}
     where shopping_id = #{shoppingId,jdbcType=INTEGER}
   </update>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
@@ -35,4 +31,10 @@
     select shopping_id, computer_id, computer_count, shopping_cart_state, user_id
     from shopping_cart
   </select>
+  <select id="selectShoppingCartIsComputerIdAndUserId" resultMap="BaseResultMap">
+    select * from shopping_cart
+    where shopping_cart.computer_id = #{computerId} and shopping_cart.user_id = #{userId} and shopping_cart.shopping_cart_state = 0
+  </select>
+
+
 </mapper>

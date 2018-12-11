@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.util.List;
+
 
 @Controller
 public class DimensionController {
@@ -58,7 +60,8 @@ public class DimensionController {
     @RequestMapping(value = "/dimension" , method = RequestMethod.GET , produces = "application/json;charset=utf-8")
     @ResponseBody
     public Result selectAll(){
-        return Result.success(dimensionService.selectAll());
+        List<Dimension> dimensions = dimensionService.selectAll();
+        return Result.success(dimensions,dimensions.size());
     }
 
     /**
