@@ -17,9 +17,9 @@ create table `user`
 
 #添加数据
 insert into `user`(user_account_number,user_password,user_nickname)
-	values('ldl326308','12345','刘大仙'),('ch1224','12345','CH');
+	values('ldl326308','123456','刘大仙'),('ch1224','123456','CH');
 	
-	
+
 	
 	
 
@@ -256,8 +256,9 @@ insert into `computer`(computer_describe,computer_price,brand_id,type_id,process
 	('海尔（Haier）天越X7 21.5英寸轻薄微边一体机商用办公台式电脑(四核J3160 4G 120G SSD 双频WIFI 无线键鼠)',2099.00,16,3,1,2,18,1,3,27),
 	('神舟(HASEE) 战神Z7-KP7GC GTX1060 6G独显 15.6英寸游戏笔记本电脑(i7-8750H 8G 1T+128G SSD 1080P)IPS',6999.00,12,2,1,4,16,1,7,11);
 	
-select * from `computer`;
+select count(*) from `computer` where computer.computer_describe like '%华硕%';
 
+select * from `type`;
 
 # 商品图片 computer_image
 drop table if exists `computer_image`;
@@ -295,15 +296,11 @@ insert into `computer_image`(computer_id,computer_image_url)
 	(22,'/images/computer/567a05edNecaa1f0a.jpg'),(22,'/images/computer/567a05faN01b531b9.jpg'),(22,'/images/computer/567a05f1Naecc8144.jpg'),
 	(23,'/images/computer/5b582284N273ebaa7.jpg'),(23,'/images/computer/5b582284N91fb5525.jpg'),(23,'/images/computer/5b582284N4d539628.jpg'),
 	(24,'/images/computer/5bea3fa2Nd3641143.jpg'),(24,'/images/computer/3bf7cc4ccb0f8bbc.jpg'),(24,'/images/computer/5b5985ebN3c822906.jpg'),
-	(25,'/images/computer/598e8a7dN9ecbd47a.jpg'),(25,'/images/computer/5a162978N948fb06f.jpg'),(25,'/images/computer/58ae9d31Nd3abeca7.jpg'),
-	(26,'/images/computer/5b7691f6N656bfc30.jpg'),(26,'/images/computer/5b7691e5Ne12a0c35.jpg'),(26,'/images/computer/5b76916cN76ad11f6.jpg'),
+	(26,'/images/computer/598e8a7dN9ecbd47a.jpg'),(25,'/images/computer/5a162978N948fb06f.jpg'),(25,'/images/computer/58ae9d31Nd3abeca7.jpg'),
+	(25,'/images/computer/5b7691f6N656bfc30.jpg'),(26,'/images/computer/5b7691e5Ne12a0c35.jpg'),(26,'/images/computer/5b76916cN76ad11f6.jpg'),
 	(27,'/images/computer/bd650555baf114ab.jpg'),(27,'/images/computer/bb8f4811394624ea.jpg'),(27,'/images/computer/aa49f29c0539dcba.jpg'),
 	(28,'/images/computer/5abdebe9Nb9531f98.jpg'),(28,'/images/computer/5ad6fac3N20935d11.jpg'),(28,'/images/computer/5abdebb3N2738bf5a.jpg');
 
-
-select * from `computer`c inner join `computer_image` co on c.computer_id = co.computer_id;
-
-select * from computer_image where computer_id = 1;
 
 # 收货地址表 address
 drop table if exists `address`;
@@ -340,9 +337,7 @@ create table `shopping_cart`
 );
 
 
-#insert into `shopping_cart`(computer_id,computer_count,shopping_cart_state,user_id)
-#	values(1,2,0,1);
-
+select * from shopping_cart;
 
 select * from shopping_cart 
 	inner join computer on shopping_cart.computer_id = computer.computer_id 
@@ -375,20 +370,40 @@ select * from `order`;
 select * from computer;
 
 #查询电脑信息
-select * from computer 
-	inner join brand on computer.brand_id = brand.brand_id
-	inner join `type` on computer.type_id = `type`.type_id
-	inner join processor on computer.processor_id = processor.processor_id
-	inner join memory_capacity on computer.memory_capacity_id = memory_capacity.memory_capacity_id
-	inner join hard_disk on computer.hard_disk_id = hard_disk.hard_disk_id
-	inner join computer_system on computer.computer_system_id = computer_system.computer_system_id
-	inner join `dimension` on computer.dimension_id = computer.dimension_id
-	inner join `nvdia` on computer.nvdia_id = `nvdia`.nvdia_id
-	inner join computer_image on computer.computer_id = computer_image.computer_id
-	 where computer.computer_id = 1;
+select * from computer inner join brand on computer.brand_id = brand.brand_id 
+inner join `type` on computer.type_id = `type`.type_id 
+inner join processor on computer.processor_id = processor.processor_id 
+inner join memory_capacity on computer.memory_capacity_id = memory_capacity.memory_capacity_id 
+inner join hard_disk on computer.hard_disk_id = hard_disk.hard_disk_id 
+inner join computer_system on computer.computer_system_id = computer_system.computer_system_id
+ inner join `dimension` on dimension.dimension_id = computer.dimension_id 
+ inner join `nvdia` on computer.nvdia_id = `nvdia`.nvdia_id 
+ inner join computer_image on computer.computer_id = computer_image.computer_id 
+ group by computer.computer_id having computer.computer_describe like '%华硕%' limit 0,16;
+ 
+ 
+select count(*)/3 from computer 
+inner join brand on computer.brand_id = brand.brand_id 
+inner join `type` on computer.type_id = `type`.type_id 
+inner join processor on computer.processor_id = processor.processor_id 
+inner join memory_capacity on computer.memory_capacity_id = memory_capacity.memory_capacity_id 
+inner join hard_disk on computer.hard_disk_id = hard_disk.hard_disk_id 
+inner join computer_system on computer.computer_system_id = computer_system.computer_system_id 
+inner join `dimension` on dimension.dimension_id = computer.dimension_id 
+inner join `nvdia` on computer.nvdia_id = `nvdia`.nvdia_id 
+inner join computer_image on computer.computer_id = computer_image.computer_id 
+WHERE `type`.type_id = 2;
 
+select * from computer where computer.brand_id = 1;
 
-
-
-
+select * from computer inner join brand on computer.brand_id = brand.brand_id 
+inner join `type` on computer.type_id = `type`.type_id 
+inner join processor on computer.processor_id = processor.processor_id 
+inner join memory_capacity on computer.memory_capacity_id = memory_capacity.memory_capacity_id 
+inner join hard_disk on computer.hard_disk_id = hard_disk.hard_disk_id 
+inner join computer_system on computer.computer_system_id = computer_system.computer_system_id
+ inner join `dimension` on dimension.dimension_id = computer.dimension_id 
+ inner join `nvdia` on computer.nvdia_id = `nvdia`.nvdia_id 
+ inner join computer_image on computer.computer_id = computer_image.computer_id 
+ where computer.computer_id = 1;
 
