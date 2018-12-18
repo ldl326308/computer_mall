@@ -1,5 +1,7 @@
 package com.nf.lc.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
@@ -13,6 +15,7 @@ public class Computer {
 
     private Integer computerState;
 
+    @JsonFormat(pattern = "yyyy年MM月dd日", timezone = "GTM+8")
     private Date computerCreateTime;
 
     private Brand brand;
@@ -144,8 +147,6 @@ public class Computer {
     public void setNvdia(Nvdia nvdia) {
         this.nvdia = nvdia;
     }
-
-
 
 
 }

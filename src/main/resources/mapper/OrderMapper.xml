@@ -9,18 +9,18 @@
     <result column="order_total_price" jdbcType="DECIMAL" property="orderTotalPrice" />
     <result column="order_create_time" jdbcType="TIMESTAMP" property="orderCreateTime" />
     <result column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="order_state" jdbcType="INTEGER" property="orderState"/>
+    <association property="address" resultMap="com.nf.lc.dao.AddressMapper.BaseResultMap"/>
+    <association property="shoppingCart" resultMap="com.nf.lc.dao.ShoppingCartMapper.BaseResultMap"/>
   </resultMap>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from order
     where order_id = #{orderId,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.nf.lc.entity.Order">
-    insert into order (order_id, order_number, address_id, 
-      shopping_cart_id, order_total_price, order_create_time, 
-      user_id)
-    values (#{orderId,jdbcType=INTEGER}, #{orderNumber,jdbcType=VARCHAR}, #{addressId,jdbcType=INTEGER}, 
-      #{shoppingCartId,jdbcType=INTEGER}, #{orderTotalPrice,jdbcType=DECIMAL}, #{orderCreateTime,jdbcType=TIMESTAMP}, 
-      #{userId,jdbcType=INTEGER})
+    insert into `order` (order_number, address_id,shopping_cart_id, user_id)
+    values (#{orderNumber,jdbcType=VARCHAR}, #{addressId,jdbcType=INTEGER},
+      #{shoppingCartId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER})
   </insert>
   <update id="updateByPrimaryKey" parameterType="com.nf.lc.entity.Order">
     update order
@@ -38,9 +38,22 @@
     from order
     where order_id = #{orderId,jdbcType=INTEGER}
   </select>
-  <select id="selectAll" resultMap="BaseResultMap">
-    select order_id, order_number, address_id, shopping_cart_id, order_total_price, order_create_time, 
-    user_id
-    from order
+  <select id="selectAllIsUserId" parameterType="int" resultMap="BaseResultMap">
+    select * from computer
+    inner join shopping_cart on computer.computer_id = shopping_cart.computer_id
+    inner join brand on computer.brand_id = brand.brand_id
+    inner join `type` on computer.type_id = `type`.type_id
+    inner join processor on computer.processor_id = processor.processor_id
+    inner join memory_capacity on computer.memory_capacity_id = memory_capacity.memory_capacity_id
+    inner join hard_disk on computer.hard_disk_id = hard_disk.hard_disk_id
+    inner join computer_system on computer.computer_system_id = computer_system.computer_system_id
+    inner join `dimension` on `dimension`.dimension_id = computer.dimension_id
+    inner join `nvdia` on computer.nvdia_id = `nvdia`.nvdia_id
+    inner join computer_image on computer.computer_id = computer_image.computer_id
+    inner join `order` on shopping_cart.shopping_id = `order`.shopping_cart_id
+    inner join `address` on `address`.address_id = `order`.address_id
+	group by `order`.order_id
+	having  shopping_cart.user_id = #{userId}
+	order by (`order`.order_state)
   </select>
 </mapper>

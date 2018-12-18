@@ -14,11 +14,11 @@
     where address_id = #{addressId,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.nf.lc.entity.Address">
-    insert into address (address_id, receiving_name, address_name, 
-      receiving_phone, address_detailed, user_id
+    insert into address (receiving_name, address_name,
+      receiving_phone, user_id
       )
-    values (#{addressId,jdbcType=INTEGER}, #{receivingName,jdbcType=VARCHAR}, #{addressName,jdbcType=VARCHAR}, 
-      #{receivingPhone,jdbcType=VARCHAR}, #{addressDetailed,jdbcType=VARCHAR}, #{userId,jdbcType=INTEGER}
+    values (#{receivingName,jdbcType=VARCHAR}, #{addressName,jdbcType=VARCHAR},
+      #{receivingPhone,jdbcType=VARCHAR}, #{userId,jdbcType=INTEGER}
       )
   </insert>
   <update id="updateByPrimaryKey" parameterType="com.nf.lc.entity.Address">
@@ -36,9 +36,7 @@
     from address
     where address_id = #{addressId,jdbcType=INTEGER}
   </select>
-  <select id="selectAll" resultMap="BaseResultMap">
-    select address_id, receiving_name, address_name, receiving_phone, address_detailed, 
-    user_id
-    from address
+  <select id="selectAll" parameterType="int" resultMap="BaseResultMap">
+    select * from `address` where address.user_id = #{uId}
   </select>
 </mapper>

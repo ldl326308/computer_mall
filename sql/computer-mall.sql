@@ -322,6 +322,7 @@ create table `address`
 
 select * from `address`;
 
+select * from `address` where address.user_id = 1;
 
 # 购物车表 shopping_cart
 drop table if exists `shopping_cart`;
@@ -337,7 +338,10 @@ create table `shopping_cart`
 );
 
 
-select * from shopping_cart;
+select * from shopping_cart 
+inner join computer
+on shopping_cart.computer_id = computer.computer_id
+where shopping_cart.shopping_id in (5,6);
 
 select * from shopping_cart 
 	inner join computer on shopping_cart.computer_id = computer.computer_id 
@@ -351,12 +355,13 @@ drop table if exists `order`;
 create table `order`
 (
 	order_id int primary key auto_increment comment'id',
-	order_number varchar(30) not null comment'订单编号',
+	order_number varchar(100) not null comment'订单编号',
 	address_id int comment'地址id',
 	shopping_cart_id int comment'购物车id',
 	order_total_price decimal(10,2) comment'总价钱',
 	order_create_time datetime default now() not null comment'订单生成时间',
 	user_id int comment'用户id',
+	order_state int default 0 comment'订单状态',
 	foreign key (address_id) references `address`(address_id),
 	foreign key (user_id) references `user`(user_id)
 );
@@ -365,9 +370,10 @@ create table `order`
 #insert into `order`(order_number,address_id,shopping_cart_id,order_total_price,user_id)
 #	values('ho902kksjd8003',1,1,5999.00,1);
 
-select * from `order`;
 
-select * from computer;
+
+
+
 
 #查询电脑信息
 select * from computer inner join brand on computer.brand_id = brand.brand_id 
@@ -376,11 +382,25 @@ inner join processor on computer.processor_id = processor.processor_id
 inner join memory_capacity on computer.memory_capacity_id = memory_capacity.memory_capacity_id 
 inner join hard_disk on computer.hard_disk_id = hard_disk.hard_disk_id 
 inner join computer_system on computer.computer_system_id = computer_system.computer_system_id
- inner join `dimension` on dimension.dimension_id = computer.dimension_id 
- inner join `nvdia` on computer.nvdia_id = `nvdia`.nvdia_id 
- inner join computer_image on computer.computer_id = computer_image.computer_id 
- group by computer.computer_id having computer.computer_describe like '%华硕%' limit 0,16;
+inner join `dimension` on dimension.dimension_id = computer.dimension_id 
+inner join `nvdia` on computer.nvdia_id = `nvdia`.nvdia_id 
+inner join computer_image on computer.computer_id = computer_image.computer_id 
+group by computer.computer_id;
  
+ 
+select * from computer 
+inner join shopping_cart on computer.computer_id = shopping_cart.computer_id
+inner join brand on computer.brand_id = brand.brand_id 
+inner join `type` on computer.type_id = `type`.type_id 
+inner join processor on computer.processor_id = processor.processor_id 
+inner join memory_capacity on computer.memory_capacity_id = memory_capacity.memory_capacity_id 
+inner join hard_disk on computer.hard_disk_id = hard_disk.hard_disk_id 
+inner join computer_system on computer.computer_system_id = computer_system.computer_system_id
+inner join `dimension` on dimension.dimension_id = computer.dimension_id 
+inner join `nvdia` on computer.nvdia_id = `nvdia`.nvdia_id 
+inner join computer_image on computer.computer_id = computer_image.computer_id 
+group by computer.computer_id
+having shopping_cart.user_id = 1 and shopping_cart.shopping_cart_state = 0;
  
 select count(*)/3 from computer 
 inner join brand on computer.brand_id = brand.brand_id 
@@ -407,3 +427,46 @@ inner join computer_system on computer.computer_system_id = computer_system.comp
  inner join computer_image on computer.computer_id = computer_image.computer_id 
  where computer.computer_id = 1;
 
+select * from shopping_cart inner join computer on shopping_cart.computer_id = computer.computer_id
+	where shopping_cart.shopping_id in (5,6);
+	
+select * from shopping_cart;	
+	
+ select * from computer
+ inner join shopping_cart on computer.computer_id = shopping_cart.computer_id
+ inner join brand on computer.brand_id = brand.brand_id
+ inner join `type` on computer.type_id = `type`.type_id
+ inner join processor on computer.processor_id = processor.processor_id
+ inner join memory_capacity on computer.memory_capacity_id = memory_capacity.memory_capacity_id
+ inner join hard_disk on computer.hard_disk_id = hard_disk.hard_disk_id
+ inner join computer_system on computer.computer_system_id = computer_system.computer_system_id
+ inner join `dimension` on dimension.dimension_id = computer.dimension_id
+ inner join `nvdia` on computer.nvdia_id = `nvdia`.nvdia_id
+ inner join computer_image on computer.computer_id = computer_image.computer_id
+ group by computer.computer_id
+ having shopping_cart.shopping_id in(11,12);
+	
+	
+    select * from computer
+    inner join shopping_cart on computer.computer_id = shopping_cart.computer_id
+    inner join brand on computer.brand_id = brand.brand_id
+    inner join `type` on computer.type_id = `type`.type_id
+    inner join processor on computer.processor_id = processor.processor_id
+    inner join memory_capacity on computer.memory_capacity_id = memory_capacity.memory_capacity_id
+    inner join hard_disk on computer.hard_disk_id = hard_disk.hard_disk_id
+    inner join computer_system on computer.computer_system_id = computer_system.computer_system_id
+    inner join `dimension` on dimension.dimension_id = computer.dimension_id
+    inner join `nvdia` on computer.nvdia_id = `nvdia`.nvdia_id
+    inner join computer_image on computer.computer_id = computer_image.computer_id
+    group by computer.computer_id
+    having shopping_cart.shopping_id in (11,14);
+	
+	
+
+	
+	
+	
+	
+	
+	
+	

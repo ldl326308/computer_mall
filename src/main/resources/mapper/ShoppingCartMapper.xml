@@ -7,34 +7,86 @@
     <result column="computer_count" jdbcType="INTEGER" property="computerCount" />
     <result column="shopping_cart_state" jdbcType="INTEGER" property="shoppingCartState" />
     <result column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="computer_image_url" property="computerImage" jdbcType="VARCHAR" />
+    <result column="computer_price" property="computerPrice" jdbcType="DECIMAL"/>
+    <association property="nvdia" resultMap="com.nf.lc.dao.NvdiaMapper.BaseResultMap"/>
+    <association property="dimension" resultMap="com.nf.lc.dao.DimensionMapper.BaseResultMap"/>
+    <association property="computerSystem" resultMap="com.nf.lc.dao.ComputerSystemMapper.BaseResultMap"/>
+    <association property="hardDisk" resultMap="com.nf.lc.dao.HardDiskMapper.BaseResultMap"/>
+    <association property="computer" resultMap="com.nf.lc.dao.ComputerMapper.BaseResultMap"/>
+    <association property="type" resultMap="com.nf.lc.dao.TypeMapper.BaseResultMap"/>
+    <association property="processor" resultMap="com.nf.lc.dao.ProcessorMapper.BaseResultMap"/>
+    <association property="memoryCapacity" resultMap="com.nf.lc.dao.MemoryCapacityMapper.BaseResultMap"/>
   </resultMap>
+
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from shopping_cart
     where shopping_id = #{shoppingId,jdbcType=INTEGER}
   </delete>
+
   <insert id="insert" parameterType="com.nf.lc.entity.ShoppingCart">
     insert into shopping_cart (computer_id, computer_count, user_id)
     values (#{computerId,jdbcType=INTEGER}, #{computerCount,jdbcType=INTEGER},
      #{userId,jdbcType=INTEGER})
   </insert>
+
   <update id="updateByPrimaryKey" parameterType="com.nf.lc.entity.ShoppingCart">
     update shopping_cart
     set  computer_count = #{computerCount,jdbcType=INTEGER}
     where shopping_id = #{shoppingId,jdbcType=INTEGER}
   </update>
+
+  <update id="updateByPrimaryKeyIsState" parameterType="int">
+    update shopping_cart
+    set  shopping_cart_state = 1
+    where shopping_id = #{shoppingId,jdbcType=INTEGER}
+  </update>
+
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select shopping_id, computer_id, computer_count, shopping_cart_state, user_id
     from shopping_cart
     where shopping_id = #{shoppingId,jdbcType=INTEGER}
   </select>
-  <select id="selectAll" resultMap="BaseResultMap">
-    select shopping_id, computer_id, computer_count, shopping_cart_state, user_id
-    from shopping_cart
+
+  <select id="selectAll" parameterType="int" resultMap="BaseResultMap">
+    select * from computer
+    inner join shopping_cart on computer.computer_id = shopping_cart.computer_id
+    inner join brand on computer.brand_id = brand.brand_id
+    inner join `type` on computer.type_id = `type`.type_id
+    inner join processor on computer.processor_id = processor.processor_id
+    inner join memory_capacity on computer.memory_capacity_id = memory_capacity.memory_capacity_id
+    inner join hard_disk on computer.hard_disk_id = hard_disk.hard_disk_id
+    inner join computer_system on computer.computer_system_id = computer_system.computer_system_id
+    inner join `dimension` on dimension.dimension_id = computer.dimension_id
+    inner join `nvdia` on computer.nvdia_id = `nvdia`.nvdia_id
+    inner join computer_image on computer.computer_id = computer_image.computer_id
+    where shopping_cart.user_id = #{userId} and shopping_cart.shopping_cart_state = 0
+	 group by computer.computer_id
   </select>
+
+
+
   <select id="selectShoppingCartIsComputerIdAndUserId" resultMap="BaseResultMap">
     select * from shopping_cart
     where shopping_cart.computer_id = #{computerId} and shopping_cart.user_id = #{userId} and shopping_cart.shopping_cart_state = 0
   </select>
-
+  <select id="selectShoppingCartIsTotalPrice" resultType="com.nf.lc.entity.ShoppingCart">
+    select * from computer
+    inner join shopping_cart on computer.computer_id = shopping_cart.computer_id
+    inner join brand on computer.brand_id = brand.brand_id
+    inner join `type` on computer.type_id = `type`.type_id
+    inner join processor on computer.processor_id = processor.processor_id
+    inner join memory_capacity on computer.memory_capacity_id = memory_capacity.memory_capacity_id
+    inner join hard_disk on computer.hard_disk_id = hard_disk.hard_disk_id
+    inner join computer_system on computer.computer_system_id = computer_system.computer_system_id
+    inner join `dimension` on dimension.dimension_id = computer.dimension_id
+    inner join `nvdia` on computer.nvdia_id = `nvdia`.nvdia_id
+    inner join computer_image on computer.computer_id = computer_image.computer_id
+    where shopping_cart.shopping_id in
+    <foreach item="id" index="index"  collection="array" open="(" separator="," close=")">
+      #{id}
+    </foreach>
+    group by computer.computer_id
+  </select>
 
 </mapper>

@@ -1,6 +1,8 @@
 package com.nf.lc.dao;
 
 import com.nf.lc.entity.ShoppingCart;
+
+import java.util.ArrayList;
 import java.util.List;
 
 public interface ShoppingCartMapper {
@@ -10,10 +12,14 @@ public interface ShoppingCartMapper {
 
     ShoppingCart selectByPrimaryKey(Integer shoppingId);
 
-    List<ShoppingCart> selectAll();
+    List<ShoppingCart> selectAll(int userId);
 
     int updateByPrimaryKey(ShoppingCart record);
 
+    int updateByPrimaryKeyIsState(int shoppingId);
+
     ShoppingCart selectShoppingCartIsComputerIdAndUserId(ShoppingCart shoppingCart);
+
+    List<ShoppingCart> selectShoppingCartIsTotalPrice(int[] shoppingIds);
 
 }

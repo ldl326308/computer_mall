@@ -10,7 +10,7 @@ public interface OrderMapper {
 
     Order selectByPrimaryKey(Integer orderId);
 
-    List<Order> selectAll();
+    List<Order> selectAllIsUserId(int userId);
 
     int updateByPrimaryKey(Order record);
 }
