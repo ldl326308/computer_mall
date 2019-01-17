@@ -17,11 +17,10 @@ create table `user`
 
 #添加数据
 insert into `user`(user_account_number,user_password,user_nickname)
-	values('ldl326308','123456','刘大仙'),('ch1224','123456','CH');
-	
-
-	
-	
+	values('ldl326308','123456','刘大仙'),('ch1224','123456','CH'),('oukele','123456','欧大仙'),('xiaobai','123456','小白'),
+	('weibanggang','123456','杠总'),('daqi','123456','唐玉琪'),('chensheng','123456','陈胜'),('weifenghao','123456','韦奉豪'),
+	('niulaoshi','123456','牛老师'),('wuguang','123456','吴广'),('huge','123456','胡歌');
+		
 
 # 查询所有用户 user
 select * from `user`;
@@ -42,11 +41,18 @@ create table `administrators`
 	admin_state int default 0 comment'状态' # 0 默认正常 1 冻结
 );
 
-insert into `administrators`(admin_id_number,admin_account_number,admin_password,admin_sexual,admin_age,admin_power_superme)
-	values('360731199912033434','ldl12345','nihaoma','男',19,1);
+# 452226199809146014
+insert into `administrators`(admin_id_number,admin_account_number,admin_password,admin_sexual,admin_age,
+	admin_power_superme,admin_power_computer,admin_power_user)
+	values('360731199912033434','ldl12345','nihaoma','男',19,1,1,1);
+
+	
 
 #查询管理员所有数据
 select * from `administrators`;
+
+
+
 
 #品牌表
 drop table if exists `brand`;
@@ -242,7 +248,7 @@ insert into `computer`(computer_describe,computer_price,brand_id,type_id,process
 	('华硕顽石(ASUS) 畅玩版Y5000 15.6英寸窄边框娱乐办公笔记本电脑(i5-8250U 8G 1T 2G独显) 灰色',4299.00,5,2,2,4,16,1,7,2),
 	('华硕(ASUS) 灵耀U 2代 14英寸合金机身轻薄笔记本电脑(i5-8265U 8G 512GSSD MX150 2G IPS)尊爵蓝(U4300)',6999.00,5,2,2,4,10,1,9,26),
 	('华硕（ASUS） 旗舰店 轻薄PX554 15.6英寸手提笔记本电脑 银灰色 i5-8250U/8G/256G SSD',4399.00,5,2,2,4,17,1,7,3),
-	('华硕(ASUS)傲世V241IC 23.8英寸一体机电脑(新八代i5-8250U 8G内存 128GSSD+1T 2G独显 高清 上门售后)黑',5199.00,5,1,2,4,9,1,5,28),
+	('华硕(ASUS)傲世V241IC 23.8英寸一体机电脑(新八代i5-8250U 8G内存 128GSSD+1T 2G独显 高清 上门售后)黑',5199.00,5,2,2,4,9,1,5,28),
 	('华硕(ASUS) 飞行堡垒5 15.6英寸游戏笔记本电脑(i5-8300H 8G 128GSSD+1T GTX1050Ti 4G IPS)火陨红黑(FX80)',5999.00,5,4,2,4,9,1,7,1),
 	('游戏本YX570顽石热血版15.6英寸商务办公学生笔记本电脑 黑+闪电蓝 定制 四核/8G/1T+128G/GTX1050',4799.00,5,2,2,4,16,1,7,27),
 	('三星（SAMSUNG）35X0AA-X04 15.6英寸轻薄笔记本电脑（i5-8250U 8G 500GB+128GSSD 2G独显 FHD Win10）黑',3969.00,13,2,2,4,9,1,7,28),
@@ -257,6 +263,8 @@ insert into `computer`(computer_describe,computer_price,brand_id,type_id,process
 	('神舟(HASEE) 战神Z7-KP7GC GTX1060 6G独显 15.6英寸游戏笔记本电脑(i7-8750H 8G 1T+128G SSD 1080P)IPS',6999.00,12,2,1,4,16,1,7,11);
 	
 select count(*) from `computer` where computer.computer_describe like '%华硕%';
+
+select * from `computer`;
 
 select * from `type`;
 
@@ -366,15 +374,40 @@ create table `order`
 	foreign key (user_id) references `user`(user_id)
 );
 
+select * from `order`;
+
 
 #insert into `order`(order_number,address_id,shopping_cart_id,order_total_price,user_id)
 #	values('ho902kksjd8003',1,1,5999.00,1);
 
+select computer.computer_id,computer.computer_describe,computer.computer_price,computer.computer_state,computer.computer_create_time,
+	brand.*,`type`.*,processor.*,memory_capacity.*,hard_disk.*,computer_system.*,`dimension`.*,`nvdia`.*,
+	computer_image.computer_image_id,computer_image.computer_image_url
+from computer
+inner join brand on computer.brand_id = brand.brand_id
+inner join `type` on computer.type_id = `type`.type_id
+inner join processor on computer.processor_id = processor.processor_id
+inner join memory_capacity on computer.memory_capacity_id = memory_capacity.memory_capacity_id
+inner join hard_disk on computer.hard_disk_id = hard_disk.hard_disk_id
+inner join computer_system on computer.computer_system_id = computer_system.computer_system_id
+inner join `dimension` on dimension.dimension_id = computer.dimension_id
+inner join `nvdia` on computer.nvdia_id = `nvdia`.nvdia_id
+inner join computer_image on computer.computer_id = computer_image.computer_id
+where computer.computer_state = 0
+group by computer.computer_id;
 
 
-
-
-
+  select count(*) from computer
+  inner join brand on computer.brand_id = brand.brand_id
+  inner join `type` on computer.type_id = `type`.type_id
+  inner join processor on computer.processor_id = processor.processor_id
+  inner join memory_capacity on computer.memory_capacity_id = memory_capacity.memory_capacity_id
+  inner join hard_disk on computer.hard_disk_id = hard_disk.hard_disk_id
+  inner join computer_system on computer.computer_system_id = computer_system.computer_system_id
+  inner join `dimension` on dimension.dimension_id = computer.dimension_id
+  inner join `nvdia` on computer.nvdia_id = `nvdia`.nvdia_id
+  where  computer.computer_state = 0;
+  
 #查询电脑信息
 select * from computer inner join brand on computer.brand_id = brand.brand_id 
 inner join `type` on computer.type_id = `type`.type_id 
@@ -461,12 +494,63 @@ select * from shopping_cart;
     group by computer.computer_id
     having shopping_cart.shopping_id in (11,14);
 	
-	
 
+select count(*) from (
+ 		select 
+		 	computer.computer_id
+		  from computer
+        inner join brand on computer.brand_id = brand.brand_id
+        inner join `type` on computer.type_id = `type`.type_id
+        inner join processor on computer.processor_id = processor.processor_id
+        inner join memory_capacity on computer.memory_capacity_id = memory_capacity.memory_capacity_id
+        inner join hard_disk on computer.hard_disk_id = hard_disk.hard_disk_id
+        inner join computer_system on computer.computer_system_id = computer_system.computer_system_id
+        inner join `dimension` on dimension.dimension_id = computer.dimension_id
+        inner join `nvdia` on computer.nvdia_id = `nvdia`.nvdia_id
+        inner join computer_image on computer.computer_id = computer_image.computer_id
+        where   computer.computer_state = 0 
+        group by computer.computer_id ) a;
 	
 	
 	
+	 select * from computer
+    inner join shopping_cart on computer.computer_id = shopping_cart.computer_id
+    inner join brand on computer.brand_id = brand.brand_id
+    inner join `type` on computer.type_id = `type`.type_id
+    inner join processor on computer.processor_id = processor.processor_id
+    inner join memory_capacity on computer.memory_capacity_id = memory_capacity.memory_capacity_id
+    inner join hard_disk on computer.hard_disk_id = hard_disk.hard_disk_id
+    inner join computer_system on computer.computer_system_id = computer_system.computer_system_id
+    inner join `dimension` on `dimension`.dimension_id = computer.dimension_id
+    inner join `nvdia` on computer.nvdia_id = `nvdia`.nvdia_id
+    inner join computer_image on computer.computer_id = computer_image.computer_id
+    inner join `order` on shopping_cart.shopping_id = `order`.shopping_cart_id
+    inner join `address` on `address`.address_id = `order`.address_id
+    where `order`.order_state = 0
+	group by `order`.order_id;
+	
+	select count(*) from (
+	 select computer.*,shopping_cart.computer_count,shopping_cart.shopping_id,brand.brand_name,`type`.type_name,processor.processor_name,
+	 memory_capacity.memory_capacity_name,hard_disk.hard_disk_name,computer_system.computer_system_name,`dimension`.dimension_name,`nvdia`.nvdia_name,
+	 computer_image.computer_image_id,computer_image.computer_image_url,`order`.*,
+	 `address`.receiving_name,`address`.address_name,`address`.receiving_phone  from computer
+    inner join shopping_cart on computer.computer_id = shopping_cart.computer_id
+    inner join brand on computer.brand_id = brand.brand_id
+    inner join `type` on computer.type_id = `type`.type_id
+    inner join processor on computer.processor_id = processor.processor_id
+    inner join memory_capacity on computer.memory_capacity_id = memory_capacity.memory_capacity_id
+    inner join hard_disk on computer.hard_disk_id = hard_disk.hard_disk_id
+    inner join computer_system on computer.computer_system_id = computer_system.computer_system_id
+    inner join `dimension` on `dimension`.dimension_id = computer.dimension_id
+    inner join `nvdia` on computer.nvdia_id = `nvdia`.nvdia_id
+    inner join computer_image on computer.computer_id = computer_image.computer_id
+    inner join `order` on shopping_cart.shopping_id = `order`.shopping_cart_id
+    inner join `address` on `address`.address_id = `order`.address_id
+    where  `order`.order_state = 0
+    group by `order`.order_id
+    ) a;
 	
 	
+	select * from `order`;
 	
 	

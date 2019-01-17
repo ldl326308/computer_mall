@@ -1,27 +1,27 @@
-package com.nf.lc.service;
+package com.nf.lc.service.impl;
 
-import com.nf.lc.dao.ComputerMapper;
-import com.nf.lc.entity.Computer;
+import com.nf.lc.dao.OrderMapper;
+import com.nf.lc.entity.Order;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import javax.swing.*;
+import java.util.List;
 
 import static org.junit.Assert.*;
 
+
 @RunWith(SpringRunner.class)
 @ContextConfiguration("/spring/spring-dao.xml")
-public class ComputerServiceTest {
+public class OrderServiceImpTest {
 
     @Autowired
-    private ComputerMapper computerMapper;
+    private OrderMapper orderMapper;
 
     @Test
     public void deleteByPrimaryKey() {
-
     }
 
     @Test
@@ -30,16 +30,24 @@ public class ComputerServiceTest {
 
     @Test
     public void selectByPrimaryKey() {
-        Computer computer = computerMapper.selectByPrimaryKey(1);
-        System.out.println(computer.getComputerImageList());
-
     }
 
     @Test
-    public void selectAll() {
+    public void selectAllIsUserId() {
     }
 
     @Test
     public void updateByPrimaryKey() {
+    }
+
+    @Test
+    public void selectAllIsOrderState() {
+        List<Order> orders = orderMapper.selectAllIsOrderState(0);
+        System.out.println(orders.size());
+    }
+
+
+    @Test
+    public void selectAllIsOrderStateCount() {
     }
 }

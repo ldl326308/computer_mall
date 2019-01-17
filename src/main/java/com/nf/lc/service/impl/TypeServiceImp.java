@@ -1,17 +1,41 @@
 package com.nf.lc.service.impl;
 
+import com.nf.lc.dao.TypeMapper;
 import com.nf.lc.entity.Type;
+import com.nf.lc.service.TypeService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-public interface TypeServiceImp {
-    int deleteByPrimaryKey(Integer typeId);
+@Service
+public class TypeServiceImp implements TypeService {
 
-    int insert(Type record);
+    @Autowired
+    private TypeMapper typeMapper;
 
-    Type selectByPrimaryKey(Integer typeId);
+    @Override
+    public int deleteByPrimaryKey(Integer typeId) {
+        return typeMapper.deleteByPrimaryKey(typeId);
+    }
 
-    List<Type> selectAll();
+    @Override
+    public int insert(Type record) {
+        return typeMapper.insert(record);
+    }
 
-    int updateByPrimaryKey(Type record);
+    @Override
+    public Type selectByPrimaryKey(Integer typeId) {
+        return typeMapper.selectByPrimaryKey(typeId);
+    }
+
+    @Override
+    public List<Type> selectAll() {
+        return typeMapper.selectAll();
+    }
+
+    @Override
+    public int updateByPrimaryKey(Type record) {
+        return typeMapper.updateByPrimaryKey(record);
+    }
 }

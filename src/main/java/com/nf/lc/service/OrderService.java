@@ -1,66 +1,27 @@
 package com.nf.lc.service;
 
-import com.nf.lc.dao.OrderMapper;
-import com.nf.lc.dao.ShoppingCartMapper;
 import com.nf.lc.entity.Order;
 import com.nf.lc.exception.EmptyException;
 import com.nf.lc.exception.FailureException;
-import com.nf.lc.service.impl.OrderServiceImp;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.UUID;
 
-@Service
-public class OrderService implements OrderServiceImp {
+public interface OrderService {
+    int deleteByPrimaryKey(Integer orderId);
 
-    @Autowired
-    private OrderMapper orderMapper;
+    int insert(Order record) throws FailureException;
 
-    @Autowired
-    private ShoppingCartMapper shoppingCartMapper;
+    Order selectByPrimaryKey(Integer orderId) throws EmptyException;
 
-    @Override
-    public int deleteByPrimaryKey(Integer orderId) {
-        return orderMapper.deleteByPrimaryKey(orderId);
-    }
+    Order selectByOrderNumber(String orderNumber) throws EmptyException;
 
-    @Override
-    public int insert(Order record) throws FailureException {
-        record.setOrderNumber(UUID.randomUUID().toString());
-        try {
-            //生成订单
-            int count = orderMapper.insert(record);
-            if (count > 0) {
-                //修改购物车状态
-                int state = shoppingCartMapper.updateByPrimaryKeyIsState(record.getShoppingCartId());
-                return count;
-            }
+    List<Order> selectAllIsUserId(int userId) throws EmptyException;
 
+    int updateByPrimaryKey(Order record);
 
-        } catch (Exception e) {
-            throw new FailureException("添加到订单失败了！");
-        }
-        throw new FailureException("添加到订单失败了！");
-    }
+    List<Order> selectAllIsOrderState(int orderState) throws EmptyException;
 
-    @Override
-    public Order selectByPrimaryKey(Integer orderId) {
-        return orderMapper.selectByPrimaryKey(orderId);
-    }
+    int selectAllIsOrderStateCount(int orderState);
 
-    @Override
-    public List<Order> selectAllIsUserId(int userId) throws EmptyException {
-        List<Order> orders = orderMapper.selectAllIsUserId(userId);
-        if(orders.size() == 0){
-            throw new EmptyException("没有订单信息哦！");
-        }
-        return orders;
-    }
-
-    @Override
-    public int updateByPrimaryKey(Order record) {
-        return orderMapper.updateByPrimaryKey(record);
-    }
+    int updateByOrderNumberIsState(String orderNumber) throws FailureException;
 }

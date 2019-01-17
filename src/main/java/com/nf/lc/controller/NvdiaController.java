@@ -2,7 +2,7 @@ package com.nf.lc.controller;
 
 import com.nf.lc.dto.Result;
 import com.nf.lc.entity.Nvdia;
-import com.nf.lc.service.NvdiaService;
+import com.nf.lc.service.impl.NvdiaServiceImp;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,7 +17,7 @@ import java.util.List;
 public class NvdiaController {
 
     @Autowired
-    private NvdiaService nvdiaService;
+    private NvdiaServiceImp nvdiaServiceImp;
 
     /**
      * 查询所有brand数据
@@ -27,7 +27,7 @@ public class NvdiaController {
     @RequestMapping(value = "/nvdia", method = RequestMethod.GET, produces = "application/json;charset=utf-8")
     @ResponseBody
     public Result selectAll() {
-        List<Nvdia> nvdias = nvdiaService.selectAll();
+        List<Nvdia> nvdias = nvdiaServiceImp.selectAll();
         return Result.success(nvdias,nvdias.size());
     }
 
@@ -40,7 +40,7 @@ public class NvdiaController {
     @RequestMapping(value = "/nvdia/{nvdiaId}", method = RequestMethod.DELETE, produces = "application/json;charset=utf-8")
     @ResponseBody
     public Result deleteByPrimaryKey(@PathVariable("nvdiaId") int nvdiaId) {
-        return nvdiaService.deleteByPrimaryKey(nvdiaId) > 0 ? Result.successMessage("删除成功!") : Result.error("删除失败！");
+        return nvdiaServiceImp.deleteByPrimaryKey(nvdiaId) > 0 ? Result.successMessage("删除成功!") : Result.error("删除失败！");
     }
 
     /**
@@ -52,7 +52,7 @@ public class NvdiaController {
     @RequestMapping(value = "/nvdia", method = RequestMethod.POST, produces = "application/json;charset=utf-8")
     @ResponseBody
     public Result insert(Nvdia nvdia) {
-        return nvdiaService.insert(nvdia) > 0 ? Result.successMessage("添加成功！") : Result.error("添加失败！");
+        return nvdiaServiceImp.insert(nvdia) > 0 ? Result.successMessage("添加成功！") : Result.error("添加失败！");
     }
 
     /**
@@ -64,7 +64,7 @@ public class NvdiaController {
     @RequestMapping(value = "/nvdia/{nvdiaId}", method = RequestMethod.GET, produces = "application/json;charset=utf-8")
     @ResponseBody
     public Result selectByPrimaryKey(@PathVariable("nvdiaId") int nvdiaId) {
-        return Result.success(nvdiaService.selectByPrimaryKey(nvdiaId));
+        return Result.success(nvdiaServiceImp.selectByPrimaryKey(nvdiaId));
     }
 
     /**
@@ -76,7 +76,7 @@ public class NvdiaController {
     @RequestMapping(value = "/nvdia", method = RequestMethod.PUT, produces = "application/json;charset=utf-8")
     @ResponseBody
     public Result updateByPrimaryKey(Nvdia nvdia) {
-        return nvdiaService.updateByPrimaryKey(nvdia) > 0 ? Result.successMessage("修改成功！") : Result.error("修改失败！");
+        return nvdiaServiceImp.updateByPrimaryKey(nvdia) > 0 ? Result.successMessage("修改成功！") : Result.error("修改失败！");
     }
 
 }

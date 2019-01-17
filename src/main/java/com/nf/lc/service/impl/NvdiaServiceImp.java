@@ -1,17 +1,41 @@
 package com.nf.lc.service.impl;
 
+import com.nf.lc.dao.NvdiaMapper;
 import com.nf.lc.entity.Nvdia;
+import com.nf.lc.service.NvdiaService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-public interface NvdiaServiceImp {
-    int deleteByPrimaryKey(Integer nvdiaId);
+@Service
+public class NvdiaServiceImp implements NvdiaService {
 
-    int insert(Nvdia record);
+    @Autowired
+    private NvdiaMapper nvdiaMapper;
 
-    Nvdia selectByPrimaryKey(Integer nvdiaId);
+    @Override
+    public int deleteByPrimaryKey(Integer nvdiaId) {
+        return nvdiaMapper.deleteByPrimaryKey(nvdiaId);
+    }
 
-    List<Nvdia> selectAll();
+    @Override
+    public int insert(Nvdia record) {
+        return nvdiaMapper.insert(record);
+    }
 
-    int updateByPrimaryKey(Nvdia record);
+    @Override
+    public Nvdia selectByPrimaryKey(Integer nvdiaId) {
+        return nvdiaMapper.selectByPrimaryKey(nvdiaId);
+    }
+
+    @Override
+    public List<Nvdia> selectAll() {
+        return nvdiaMapper.selectAll();
+    }
+
+    @Override
+    public int updateByPrimaryKey(Nvdia record) {
+        return nvdiaMapper.updateByPrimaryKey(record);
+    }
 }

@@ -17,29 +17,38 @@
     delete from administrators
     where admin_id = #{adminId,jdbcType=INTEGER}
   </delete>
+
   <insert id="insert" parameterType="com.nf.lc.entity.Administrators">
-    insert into administrators (admin_id, admin_id_number, admin_account_number, 
-      admin_password, admin_sexual, admin_age, 
-      admin_power_user, admin_power_computer, admin_power_superme, 
-      admin_state)
-    values (#{adminId,jdbcType=INTEGER}, #{adminIdNumber,jdbcType=VARCHAR}, #{adminAccountNumber,jdbcType=VARCHAR}, 
-      #{adminPassword,jdbcType=VARCHAR}, #{adminSexual,jdbcType=VARCHAR}, #{adminAge,jdbcType=INTEGER}, 
-      #{adminPowerUser,jdbcType=INTEGER}, #{adminPowerComputer,jdbcType=INTEGER}, #{adminPowerSuperme,jdbcType=INTEGER}, 
-      #{adminState,jdbcType=INTEGER})
+    insert into administrators (
+    admin_id_number,
+    admin_account_number,
+    admin_password,
+    admin_sexual,
+    admin_age)
+    values (#{adminIdNumber,jdbcType=VARCHAR}, #{adminAccountNumber,jdbcType=VARCHAR},
+      #{adminPassword,jdbcType=VARCHAR}, #{adminSexual,jdbcType=VARCHAR}, #{adminAge,jdbcType=INTEGER})
   </insert>
+
   <update id="updateByPrimaryKey" parameterType="com.nf.lc.entity.Administrators">
     update administrators
-    set admin_id_number = #{adminIdNumber,jdbcType=VARCHAR},
-      admin_account_number = #{adminAccountNumber,jdbcType=VARCHAR},
-      admin_password = #{adminPassword,jdbcType=VARCHAR},
-      admin_sexual = #{adminSexual,jdbcType=VARCHAR},
-      admin_age = #{adminAge,jdbcType=INTEGER},
+    set
+      admin_id_number = #{adminIdNumber},
+      admin_sexual = #{adminSexual},
+      admin_age = #{adminAge},
       admin_power_user = #{adminPowerUser,jdbcType=INTEGER},
       admin_power_computer = #{adminPowerComputer,jdbcType=INTEGER},
       admin_power_superme = #{adminPowerSuperme,jdbcType=INTEGER},
       admin_state = #{adminState,jdbcType=INTEGER}
     where admin_id = #{adminId,jdbcType=INTEGER}
   </update>
+
+  <update id="resetAdminPassword">
+        update administrators
+    set
+      admin_password = '123456'
+    where admin_id = #{adminId,jdbcType=INTEGER}
+  </update>
+
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select admin_id, admin_id_number, admin_account_number, admin_password, admin_sexual, 
     admin_age, admin_power_user, admin_power_computer, admin_power_superme, admin_state
@@ -50,5 +59,47 @@
     select admin_id, admin_id_number, admin_account_number, admin_password, admin_sexual, 
     admin_age, admin_power_user, admin_power_computer, admin_power_superme, admin_state
     from administrators
+    <where>
+      <if test="state == 0 or state == 1">
+        admin_state = #{state}
+      </if>
+    </where>
   </select>
+    <select id="selectAdministratorsCountIsState" resultType="java.lang.Integer">
+        select count(*) from administrators
+        <where>
+          <if test="state != -1">
+            admin_state = #{state}
+          </if>
+        </where>
+    </select>
+
+  <select id="selectByLikeAdminIdNumberCount" parameterType="string" resultType="int">
+     select count(*) from administrators where admin_id_number like concat('%',#{adminIdNumber},'%')
+  </select>
+
+  <select id="selectByLikeAdminIdNumber" parameterType="string" resultType="com.nf.lc.entity.Administrators">
+    select * from administrators where admin_id_number like concat('%',#{adminIdNumber},'%')
+  </select>
+
+  <select id="selectByAdminAccountNumber" resultType="com.nf.lc.entity.Administrators">
+    select * from `administrators` where `admin_account_number` = #{adminAccountNumber}
+  </select>
+
+  <select id="exportAdmin" resultType="com.nf.lc.entity.Administrators">
+    select * from `administrators`
+    <where>
+      <if test="adminState == 1 or adminState == 0">
+        admin_state = #{adminState}
+      </if>
+    </where>
+    limit #{start},#{end}
+  </select>
+
+    <select id="loginVerify" resultMap="BaseResultMap">
+      select * from `administrators`
+      where admin_account_number = #{adminAccountNumber}
+      and admin_password = #{adminPassword}
+    </select>
+
 </mapper>

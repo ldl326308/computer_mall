@@ -5,7 +5,7 @@ import com.nf.lc.entity.Address;
 import com.nf.lc.entity.User;
 import com.nf.lc.exception.EmptyException;
 import com.nf.lc.exception.FailureException;
-import com.nf.lc.service.AddressService;
+import com.nf.lc.service.impl.AddressServiceImp;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -20,7 +20,7 @@ import java.util.List;
 public class AddressController {
 
     @Autowired
-    private AddressService addressService;
+    private AddressServiceImp addressServiceImp;
 
     /**
      * 添加地址信息
@@ -34,7 +34,7 @@ public class AddressController {
         User currentUser = (User)session.getAttribute("currentUser");
         address.setUserId(currentUser.getUserId());
         try {
-            addressService.insert(address);
+            addressServiceImp.insert(address);
             return Result.successMessage("添加成功！");
         } catch (FailureException e) {
             return Result.error(e.getMessage());
@@ -57,7 +57,7 @@ public class AddressController {
         }
 
         try {
-            List<Address> addresses = addressService.selectAll(currentUser.getUserId());
+            List<Address> addresses = addressServiceImp.selectAll(currentUser.getUserId());
             return Result.success(addresses);
         } catch (EmptyException e) {
             return Result.error(e.getMessage());

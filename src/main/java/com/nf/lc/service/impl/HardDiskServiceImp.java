@@ -1,17 +1,40 @@
 package com.nf.lc.service.impl;
 
+import com.nf.lc.dao.HardDiskMapper;
 import com.nf.lc.entity.HardDisk;
+import com.nf.lc.service.HardDiskService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
+@Service
+public class HardDiskServiceImp implements HardDiskService {
 
-public interface HardDiskServiceImp {
-    int deleteByPrimaryKey(Integer hardDiskId);
+    @Autowired
+    private HardDiskMapper hardDiskMapper;
 
-    int insert(HardDisk record);
+    @Override
+    public int deleteByPrimaryKey(Integer hardDiskId) {
+        return hardDiskMapper.deleteByPrimaryKey(hardDiskId);
+    }
 
-    HardDisk selectByPrimaryKey(Integer hardDiskId);
+    @Override
+    public int insert(HardDisk record) {
+        return hardDiskMapper.insert(record);
+    }
 
-    List<HardDisk> selectAll();
+    @Override
+    public HardDisk selectByPrimaryKey(Integer hardDiskId) {
+        return hardDiskMapper.selectByPrimaryKey(hardDiskId);
+    }
 
-    int updateByPrimaryKey(HardDisk record);
+    @Override
+    public List<HardDisk> selectAll() {
+        return hardDiskMapper.selectAll();
+    }
+
+    @Override
+    public int updateByPrimaryKey(HardDisk record) {
+        return hardDiskMapper.updateByPrimaryKey(record);
+    }
 }

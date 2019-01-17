@@ -32,12 +32,51 @@
       user_id = #{userId,jdbcType=INTEGER}
     where order_id = #{orderId,jdbcType=INTEGER}
   </update>
+
+  <update id="updateByOrderNumberIsState">
+    update `order`
+    set
+    order_state = 1
+    where order_number = #{orderNumber,jdbcType=VARCHAR}
+  </update>
+
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select order_id, order_number, address_id, shopping_cart_id, order_total_price, order_create_time, 
-    user_id
-    from order
-    where order_id = #{orderId,jdbcType=INTEGER}
+    select * from computer
+    inner join shopping_cart on computer.computer_id = shopping_cart.computer_id
+    inner join brand on computer.brand_id = brand.brand_id
+    inner join `type` on computer.type_id = `type`.type_id
+    inner join processor on computer.processor_id = processor.processor_id
+    inner join memory_capacity on computer.memory_capacity_id = memory_capacity.memory_capacity_id
+    inner join hard_disk on computer.hard_disk_id = hard_disk.hard_disk_id
+    inner join computer_system on computer.computer_system_id = computer_system.computer_system_id
+    inner join `dimension` on `dimension`.dimension_id = computer.dimension_id
+    inner join `nvdia` on computer.nvdia_id = `nvdia`.nvdia_id
+    inner join computer_image on computer.computer_id = computer_image.computer_id
+    inner join `order` on shopping_cart.shopping_id = `order`.shopping_cart_id
+    inner join `address` on `address`.address_id = `order`.address_id
+	group by `order`.order_id
+	having  order_id = #{orderId,jdbcType=INTEGER}
   </select>
+
+
+  <select id="selectByOrderNumber" parameterType="string" resultMap="BaseResultMap">
+    select * from computer
+    inner join shopping_cart on computer.computer_id = shopping_cart.computer_id
+    inner join brand on computer.brand_id = brand.brand_id
+    inner join `type` on computer.type_id = `type`.type_id
+    inner join processor on computer.processor_id = processor.processor_id
+    inner join memory_capacity on computer.memory_capacity_id = memory_capacity.memory_capacity_id
+    inner join hard_disk on computer.hard_disk_id = hard_disk.hard_disk_id
+    inner join computer_system on computer.computer_system_id = computer_system.computer_system_id
+    inner join `dimension` on `dimension`.dimension_id = computer.dimension_id
+    inner join `nvdia` on computer.nvdia_id = `nvdia`.nvdia_id
+    inner join computer_image on computer.computer_id = computer_image.computer_id
+    inner join `order` on shopping_cart.shopping_id = `order`.shopping_cart_id
+    inner join `address` on `address`.address_id = `order`.address_id
+	group by `order`.order_id
+	having  order_number = #{orderNumber,jdbcType=INTEGER}
+  </select>
+
   <select id="selectAllIsUserId" parameterType="int" resultMap="BaseResultMap">
     select * from computer
     inner join shopping_cart on computer.computer_id = shopping_cart.computer_id
@@ -55,5 +94,54 @@
 	group by `order`.order_id
 	having  shopping_cart.user_id = #{userId}
 	order by (`order`.order_state)
+  </select>
+  <select id="selectAllIsOrderState" resultMap="BaseResultMap">
+       select * from computer
+    inner join shopping_cart on computer.computer_id = shopping_cart.computer_id
+    inner join brand on computer.brand_id = brand.brand_id
+    inner join `type` on computer.type_id = `type`.type_id
+    inner join processor on computer.processor_id = processor.processor_id
+    inner join memory_capacity on computer.memory_capacity_id = memory_capacity.memory_capacity_id
+    inner join hard_disk on computer.hard_disk_id = hard_disk.hard_disk_id
+    inner join computer_system on computer.computer_system_id = computer_system.computer_system_id
+    inner join `dimension` on `dimension`.dimension_id = computer.dimension_id
+    inner join `nvdia` on computer.nvdia_id = `nvdia`.nvdia_id
+    inner join computer_image on computer.computer_id = computer_image.computer_id
+    inner join `order` on shopping_cart.shopping_id = `order`.shopping_cart_id
+    inner join `address` on `address`.address_id = `order`.address_id
+    <where>
+      <if test="orderState != -1">
+        `order`.order_state = #{orderState}
+      </if>
+    </where>
+	group by `order`.order_id
+  </select>
+  <select id="selectAllIsOrderStateCount" resultType="int">
+
+    select count(*) from (
+    select computer.*,shopping_cart.computer_count,shopping_cart.shopping_id,brand.brand_name,`type`.type_name,processor.processor_name,
+    memory_capacity.memory_capacity_name,hard_disk.hard_disk_name,computer_system.computer_system_name,`dimension`.dimension_name,`nvdia`.nvdia_name,
+    computer_image.computer_image_id,computer_image.computer_image_url,`order`.*,
+    `address`.receiving_name,`address`.address_name,`address`.receiving_phone  from computer
+    inner join shopping_cart on computer.computer_id = shopping_cart.computer_id
+    inner join brand on computer.brand_id = brand.brand_id
+    inner join `type` on computer.type_id = `type`.type_id
+    inner join processor on computer.processor_id = processor.processor_id
+    inner join memory_capacity on computer.memory_capacity_id = memory_capacity.memory_capacity_id
+    inner join hard_disk on computer.hard_disk_id = hard_disk.hard_disk_id
+    inner join computer_system on computer.computer_system_id = computer_system.computer_system_id
+    inner join `dimension` on `dimension`.dimension_id = computer.dimension_id
+    inner join `nvdia` on computer.nvdia_id = `nvdia`.nvdia_id
+    inner join computer_image on computer.computer_id = computer_image.computer_id
+    inner join `order` on shopping_cart.shopping_id = `order`.shopping_cart_id
+    inner join `address` on `address`.address_id = `order`.address_id
+    <where>
+      <if test="orderState != -1">
+        `order`.order_state = #{orderState}
+      </if>
+    </where>
+    group by `order`.order_id
+    ) a
+
   </select>
 </mapper>

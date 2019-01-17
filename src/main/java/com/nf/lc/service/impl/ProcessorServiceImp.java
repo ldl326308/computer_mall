@@ -1,19 +1,41 @@
 package com.nf.lc.service.impl;
 
+import com.nf.lc.dao.ProcessorMapper;
 import com.nf.lc.entity.Processor;
+import com.nf.lc.service.ProcessorService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-public interface ProcessorServiceImp {
+@Service
+public class ProcessorServiceImp implements ProcessorService {
 
-    int deleteByPrimaryKey(Integer processorId);
+    @Autowired
+    private ProcessorMapper processorMapper;
 
-    int insert(Processor record);
+    @Override
+    public int deleteByPrimaryKey(Integer processorId) {
+        return processorMapper.deleteByPrimaryKey(processorId);
+    }
 
-    Processor selectByPrimaryKey(Integer processorId);
+    @Override
+    public int insert(Processor record) {
+        return processorMapper.insert(record);
+    }
 
-    List<Processor> selectAll();
+    @Override
+    public Processor selectByPrimaryKey(Integer processorId) {
+        return processorMapper.selectByPrimaryKey(processorId);
+    }
 
-    int updateByPrimaryKey(Processor record);
+    @Override
+    public List<Processor> selectAll() {
+        return processorMapper.selectAll();
+    }
 
+    @Override
+    public int updateByPrimaryKey(Processor record) {
+        return processorMapper.updateByPrimaryKey(record);
+    }
 }

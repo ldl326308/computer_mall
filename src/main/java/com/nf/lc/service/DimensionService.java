@@ -1,40 +1,17 @@
 package com.nf.lc.service;
 
-import com.nf.lc.dao.DimensionMapper;
 import com.nf.lc.entity.Dimension;
-import com.nf.lc.service.impl.DimensionServiceImp;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
-@Service
-public class DimensionService implements DimensionServiceImp {
 
-    @Autowired
-    private DimensionMapper dimensionMapper;
+public interface DimensionService {
+    int deleteByPrimaryKey(Integer dimensionId);
 
-    @Override
-    public int deleteByPrimaryKey(Integer dimensionId) {
-        return dimensionMapper.deleteByPrimaryKey(dimensionId);
-    }
+    int insert(Dimension record);
 
-    @Override
-    public int insert(Dimension record) {
-        return dimensionMapper.insert(record);
-    }
+    Dimension selectByPrimaryKey(Integer dimensionId);
 
-    @Override
-    public Dimension selectByPrimaryKey(Integer dimensionId) {
-        return dimensionMapper.selectByPrimaryKey(dimensionId);
-    }
+    List<Dimension> selectAll();
 
-    @Override
-    public List<Dimension> selectAll() {
-        return dimensionMapper.selectAll();
-    }
-
-    @Override
-    public int updateByPrimaryKey(Dimension record) {
-        return dimensionMapper.updateByPrimaryKey(record);
-    }
+    int updateByPrimaryKey(Dimension record);
 }

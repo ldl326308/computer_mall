@@ -1,40 +1,31 @@
 package com.nf.lc.service;
 
-import com.nf.lc.dao.AdministratorsMapper;
 import com.nf.lc.entity.Administrators;
-import com.nf.lc.service.impl.AdministratorsServiceImp;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import com.nf.lc.exception.EmptyException;
+import com.nf.lc.exception.FailureException;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
-@Service
-public class AdministratorsService implements AdministratorsServiceImp {
 
-    @Autowired
-    private AdministratorsMapper administratorsMapper;
+public interface AdministratorsService {
+    int deleteByPrimaryKey(Integer adminId) throws FailureException;
 
-    @Override
-    public int deleteByPrimaryKey(Integer adminId) {
-        return administratorsMapper.deleteByPrimaryKey(adminId);
-    }
+    int insert(Administrators record) throws FailureException;
 
-    @Override
-    public int insert(Administrators record) {
-        return administratorsMapper.insert(record);
-    }
+    Administrators selectByPrimaryKey(Integer adminId);
 
-    @Override
-    public Administrators selectByPrimaryKey(Integer adminId) {
-        return administratorsMapper.selectByPrimaryKey(adminId);
-    }
+    List<Administrators> selectByLikeAdminIdNumber(int page,String adminIdNumber) throws EmptyException;
 
-    @Override
-    public List<Administrators> selectAll() {
-        return administratorsMapper.selectAll();
-    }
+    int resetAdminPassword(int adminId) throws FailureException;
 
-    @Override
-    public int updateByPrimaryKey(Administrators record) {
-        return administratorsMapper.updateByPrimaryKey(record);
-    }
+    int selectByLikeAdminIdNumberCount(String adminIdNumber);
+
+    int selectAdministratorsCountIsState(int state);
+
+    List<Administrators> selectAll(int page,int state) throws EmptyException;
+
+    int updateByPrimaryKey(Administrators record) throws FailureException;
+
+    Administrators loginVerify(String adminAccountNumber ,String adminPassword) throws EmptyException;
+
 }

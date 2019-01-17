@@ -1,40 +1,17 @@
 package com.nf.lc.service;
 
-import com.nf.lc.dao.MemoryCapacityMapper;
 import com.nf.lc.entity.MemoryCapacity;
-import com.nf.lc.service.impl.MemoryCapacityServiceImp;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
-@Service
-public class MemoryCapacityService implements MemoryCapacityServiceImp {
 
-    @Autowired
-    private MemoryCapacityMapper memoryCapacityMapper;
+public interface MemoryCapacityService {
+    int deleteByPrimaryKey(Integer memoryCapacityId);
 
-    @Override
-    public int deleteByPrimaryKey(Integer memoryCapacityId) {
-        return memoryCapacityMapper.deleteByPrimaryKey(memoryCapacityId);
-    }
+    int insert(MemoryCapacity record);
 
-    @Override
-    public int insert(MemoryCapacity record) {
-        return memoryCapacityMapper.insert(record);
-    }
+    MemoryCapacity selectByPrimaryKey(Integer memoryCapacityId);
 
-    @Override
-    public MemoryCapacity selectByPrimaryKey(Integer memoryCapacityId) {
-        return memoryCapacityMapper.selectByPrimaryKey(memoryCapacityId);
-    }
+    List<MemoryCapacity> selectAll();
 
-    @Override
-    public List<MemoryCapacity> selectAll() {
-        return memoryCapacityMapper.selectAll();
-    }
-
-    @Override
-    public int updateByPrimaryKey(MemoryCapacity record) {
-        return memoryCapacityMapper.updateByPrimaryKey(record);
-    }
+    int updateByPrimaryKey(MemoryCapacity record);
 }

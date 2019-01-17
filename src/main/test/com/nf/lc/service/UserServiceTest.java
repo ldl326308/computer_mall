@@ -44,7 +44,7 @@ public class UserServiceTest {
 
     @Test
     public void selectAll() {
-        assert userMapper.selectAll() != null;
+
     }
 
     @Test

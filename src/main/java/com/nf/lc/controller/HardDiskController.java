@@ -2,7 +2,7 @@ package com.nf.lc.controller;
 
 import com.nf.lc.dto.Result;
 import com.nf.lc.entity.HardDisk;
-import com.nf.lc.service.HardDiskService;
+import com.nf.lc.service.impl.HardDiskServiceImp;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,7 +17,7 @@ import java.util.List;
 public class HardDiskController {
 
     @Autowired
-    private HardDiskService hardDiskService;
+    private HardDiskServiceImp hardDiskServiceImp;
 
     /**
      * 根据id删除
@@ -27,7 +27,7 @@ public class HardDiskController {
     @RequestMapping(value = "/hardDisk/{hardDiskId}" , method = RequestMethod.DELETE , produces = "application/json;charset=utf-8")
     @ResponseBody
     public Result deleteByPrimaryKey(@PathVariable("hardDiskId") int hardDiskId){
-        return hardDiskService.deleteByPrimaryKey(hardDiskId) > 0 ? Result.successMessage("删除成功！") : Result.error("删除失败！");
+        return hardDiskServiceImp.deleteByPrimaryKey(hardDiskId) > 0 ? Result.successMessage("删除成功！") : Result.error("删除失败！");
     }
 
     /**
@@ -38,7 +38,7 @@ public class HardDiskController {
     @RequestMapping(value = "/hardDisk" , method = RequestMethod.POST , produces = "application/json;charset=utf-8")
     @ResponseBody
     public Result insert(HardDisk hardDisk){
-        return hardDiskService.insert(hardDisk) > 0 ? Result.successMessage("添加成功！") : Result.error("添加失败！");
+        return hardDiskServiceImp.insert(hardDisk) > 0 ? Result.successMessage("添加成功！") : Result.error("添加失败！");
     }
 
     /**
@@ -49,7 +49,7 @@ public class HardDiskController {
     @RequestMapping(value = "/hardDisk/{hardDiskId}" , method = RequestMethod.GET , produces = "application/json;charset=utf-8")
     @ResponseBody
     public Result selectByPrimaryKey(@PathVariable("hardDiskId") int hardDiskId){
-        return Result.success(hardDiskService.selectByPrimaryKey(hardDiskId));
+        return Result.success(hardDiskServiceImp.selectByPrimaryKey(hardDiskId));
     }
 
     /**
@@ -59,7 +59,7 @@ public class HardDiskController {
     @RequestMapping(value = "/hardDisk" , method = RequestMethod.GET , produces = "application/json;charset=utf-8")
     @ResponseBody
     public Result selectAll(){
-        List<HardDisk> hardDisks = hardDiskService.selectAll();
+        List<HardDisk> hardDisks = hardDiskServiceImp.selectAll();
         return Result.success(hardDisks,hardDisks.size());
     }
 
@@ -71,7 +71,7 @@ public class HardDiskController {
     @RequestMapping(value = "/hardDisk" , method = RequestMethod.PUT , produces = "application/json;charset=utf-8")
     @ResponseBody
     public Result updateByPrimaryKey(HardDisk hardDisk){
-        return hardDiskService.updateByPrimaryKey(hardDisk) > 0 ? Result.successMessage("修改成功！") : Result.error("修改失败！");
+        return hardDiskServiceImp.updateByPrimaryKey(hardDisk) > 0 ? Result.successMessage("修改成功！") : Result.error("修改失败！");
     }
 
 

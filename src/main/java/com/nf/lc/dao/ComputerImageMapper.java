@@ -8,7 +8,7 @@ public interface ComputerImageMapper {
 
     int insert(ComputerImage record);
 
-    ComputerImage selectByPrimaryKey(Integer computerImageId);
+    List<ComputerImage> selectByPrimaryKey(Integer computerImageId);
 
     List<ComputerImage> selectAll();
 

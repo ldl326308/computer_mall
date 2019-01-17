@@ -20,6 +20,8 @@ public class User {
 
     private String userHeadPortrait;
 
+    public User(){}
+
     public String getUserHeadPortrait() {
         return userHeadPortrait;
     }

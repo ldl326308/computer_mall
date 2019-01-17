@@ -11,7 +11,6 @@ public class Result {
     //数据条数
     private int total;
 
-
     //正常返回，携带信息
     public static Result successMessage(String message){
         return new Result(1028,message,null,0);

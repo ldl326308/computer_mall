@@ -27,12 +27,40 @@
       user_head_portrait = #{userHeadPortrait,jdbcType=VARCHAR}
     where user_id = #{userId,jdbcType=INTEGER}
   </update>
+    <update id="updateByPrimaryKeyToState" parameterType="com.nf.lc.entity.User">
+        update user
+        set
+        user_state = #{userState,jdbcType=INTEGER}
+        where user_id = #{userId,jdbcType=INTEGER}
+    </update>
+    <update id="updateResetUserPassword" parameterType="int">
+       update user
+        set
+        user_password = '654321'
+        where user_id = #{userId,jdbcType=INTEGER}
+    </update>
+
+    <select id="exportUser" resultType="com.nf.lc.entity.User">
+        select * from  user
+        <where>
+            <if test="userState == 1 or userState == 0">
+                user_state = #{userState}
+            </if>
+        </where>
+        limit #{start},#{end}
+    </select>
+
     <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select * from user
     where user_id = #{userId,jdbcType=INTEGER}
   </select>
-    <select id="selectAll" resultMap="BaseResultMap">
-    select *   from user
+    <select id="selectAll" parameterType="int" resultMap="BaseResultMap">
+        select * from user
+        <where>
+            <if test="userState == 1 or userState == 0">
+                user_state = #{userState}
+            </if>
+        </where>
   </select>
 
     <select id="loginVerify" parameterType="com.nf.lc.entity.User" resultMap="BaseResultMap">
@@ -48,5 +76,19 @@
     <select id="selectVerifyState" parameterType="com.nf.lc.entity.User" resultMap="BaseResultMap">
         select * from user where user_account_number = #{userAccountNumber} and 	user_state = 1
     </select>
+
+    <select id="selectByUserAccountNumber" resultType="com.nf.lc.entity.User">
+        select * from user where user_account_number = #{userAccountNumber}
+    </select>
+
+    <select id="selectUserCountIsState" parameterType="integer" resultType="java.lang.Integer">
+        select count(*) from user
+        <where>
+            <if test="userState == 1 or userState == 0">
+                user_state = #{userState}
+            </if>
+        </where>
+    </select>
+
 
 </mapper>

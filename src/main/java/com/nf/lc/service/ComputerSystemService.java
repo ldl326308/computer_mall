@@ -1,40 +1,17 @@
 package com.nf.lc.service;
 
-import com.nf.lc.dao.ComputerSystemMapper;
 import com.nf.lc.entity.ComputerSystem;
-import com.nf.lc.service.impl.ComputerSystemServiceImp;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
-@Service
-public class ComputerSystemService implements ComputerSystemServiceImp {
 
-    @Autowired
-    private ComputerSystemMapper computerSystemMapper;
+public interface ComputerSystemService {
+    int deleteByPrimaryKey(Integer computerSystemId);
 
-    @Override
-    public int deleteByPrimaryKey(Integer computerSystemId) {
-        return computerSystemMapper.deleteByPrimaryKey(computerSystemId);
-    }
+    int insert(ComputerSystem record);
 
-    @Override
-    public int insert(ComputerSystem record) {
-        return computerSystemMapper.insert(record);
-    }
+    ComputerSystem selectByPrimaryKey(Integer computerSystemId);
 
-    @Override
-    public ComputerSystem selectByPrimaryKey(Integer computerSystemId) {
-        return computerSystemMapper.selectByPrimaryKey(computerSystemId);
-    }
+    List<ComputerSystem> selectAll();
 
-    @Override
-    public List<ComputerSystem> selectAll() {
-        return computerSystemMapper.selectAll();
-    }
-
-    @Override
-    public int updateByPrimaryKey(ComputerSystem record) {
-        return computerSystemMapper.updateByPrimaryKey(record);
-    }
+    int updateByPrimaryKey(ComputerSystem record);
 }

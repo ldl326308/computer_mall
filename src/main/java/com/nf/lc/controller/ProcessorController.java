@@ -2,7 +2,7 @@ package com.nf.lc.controller;
 
 import com.nf.lc.dto.Result;
 import com.nf.lc.entity.Processor;
-import com.nf.lc.service.ProcessorService;
+import com.nf.lc.service.impl.ProcessorServiceImp;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -14,7 +14,7 @@ import java.util.List;
 public class ProcessorController {
 
     @Autowired
-    private ProcessorService processorService;
+    private ProcessorServiceImp processorServiceImp;
 
     /**
      * 查询所有
@@ -23,7 +23,7 @@ public class ProcessorController {
     @RequestMapping(value = "/processor" , method = RequestMethod.GET , produces = "application/json;charset=utf-8")
     @ResponseBody
     public Result selectAll(){
-        List<Processor> processors = processorService.selectAll();
+        List<Processor> processors = processorServiceImp.selectAll();
         return Result.success(processors,processors.size());
     }
 
@@ -35,7 +35,7 @@ public class ProcessorController {
     @RequestMapping(value = "/processor/{processorId}" , method = RequestMethod.DELETE , produces = "application/json;charset=utf-8")
     @ResponseBody
     public Result deleteByPrimaryKey(@PathVariable("processorId") int processorId){
-        return processorService.deleteByPrimaryKey(processorId) > 0 ? Result.successMessage("删除成功！") : Result.error("删除失败！");
+        return processorServiceImp.deleteByPrimaryKey(processorId) > 0 ? Result.successMessage("删除成功！") : Result.error("删除失败！");
     }
 
     /**
@@ -46,7 +46,7 @@ public class ProcessorController {
     @RequestMapping(value = "/processor" , method = RequestMethod.POST , produces = "application/json;charset=utf-8")
     @ResponseBody
     public Result insert(Processor processor){
-        return processorService.insert(processor) > 0 ? Result.successMessage("添加成功！") : Result.error("添加失败！");
+        return processorServiceImp.insert(processor) > 0 ? Result.successMessage("添加成功！") : Result.error("添加失败！");
     }
 
     /**
@@ -57,7 +57,7 @@ public class ProcessorController {
     @RequestMapping(value = "/processor/{processorId}" , method = RequestMethod.GET , produces = "application/json;charset=utf-8")
     @ResponseBody
     public Result selectByPrimaryKey(@PathVariable("processorId") int processorId){
-        return Result.success(processorService.selectByPrimaryKey(processorId));
+        return Result.success(processorServiceImp.selectByPrimaryKey(processorId));
     }
 
     /**
@@ -68,6 +68,6 @@ public class ProcessorController {
     @RequestMapping(value = "/processor" , method = RequestMethod.PUT , produces = "application/json;charset=utf-8")
     @ResponseBody
     public Result updateByPrimaryKey(Processor processor){
-        return processorService.updateByPrimaryKey(processor) > 0 ? Result.successMessage("修改成功！") : Result.error("修改失败！");
+        return processorServiceImp.updateByPrimaryKey(processor) > 0 ? Result.successMessage("修改成功！") : Result.error("修改失败！");
     }
 }

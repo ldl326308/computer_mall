@@ -16,16 +16,18 @@
     values (#{computerImageId,jdbcType=INTEGER}, #{computerId,jdbcType=INTEGER}, #{computerImageUrl,jdbcType=VARCHAR}
       )
   </insert>
+
   <update id="updateByPrimaryKey" parameterType="com.nf.lc.entity.ComputerImage">
     update computer_image
     set computer_id = #{computerId,jdbcType=INTEGER},
       computer_image_url = #{computerImageUrl,jdbcType=VARCHAR}
     where computer_image_id = #{computerImageId,jdbcType=INTEGER}
   </update>
+
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select computer_image_id, computer_id, computer_image_url
     from computer_image
-    where computer_image_id = #{computerImageId,jdbcType=INTEGER}
+    where computer_id = #{computerId,jdbcType=INTEGER}
   </select>
   <select id="selectAll" resultMap="BaseResultMap">
     select computer_image_id, computer_id, computer_image_url

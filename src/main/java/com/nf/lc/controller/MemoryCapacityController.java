@@ -2,7 +2,7 @@ package com.nf.lc.controller;
 
 import com.nf.lc.dto.Result;
 import com.nf.lc.entity.MemoryCapacity;
-import com.nf.lc.service.MemoryCapacityService;
+import com.nf.lc.service.impl.MemoryCapacityServiceImp;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,7 +16,7 @@ import java.util.List;
 public class MemoryCapacityController {
 
     @Autowired
-    private MemoryCapacityService memoryCapacityService;
+    private MemoryCapacityServiceImp memoryCapacityServiceImp;
 
     /**
      * 根据id删除
@@ -26,7 +26,7 @@ public class MemoryCapacityController {
     @RequestMapping(value = "/memoryCapacity/{memoryCapacityId}" , method = RequestMethod.DELETE , produces = "application/json;charset=utf-8")
     @ResponseBody
     public Result deleteByPrimaryKey(@PathVariable("memoryCapacityId") int memoryCapacityId){
-        return memoryCapacityService.deleteByPrimaryKey(memoryCapacityId) > 0 ? Result.successMessage("删除成功！") : Result.error("删除失败！");
+        return memoryCapacityServiceImp.deleteByPrimaryKey(memoryCapacityId) > 0 ? Result.successMessage("删除成功！") : Result.error("删除失败！");
     }
 
     /**
@@ -37,7 +37,7 @@ public class MemoryCapacityController {
     @RequestMapping(value = "/memoryCapacity" , method = RequestMethod.POST , produces = "application/json;charset=utf-8")
     @ResponseBody
     public Result insert(MemoryCapacity memoryCapacity){
-        return memoryCapacityService.insert(memoryCapacity) > 0 ? Result.successMessage("添加成功！") : Result.error("添加失败！");
+        return memoryCapacityServiceImp.insert(memoryCapacity) > 0 ? Result.successMessage("添加成功！") : Result.error("添加失败！");
     }
 
     /**
@@ -48,7 +48,7 @@ public class MemoryCapacityController {
     @RequestMapping(value = "/memoryCapacity/{memoryCapacityId}" ,method = RequestMethod.GET , produces = "application/json;charset=utf-8")
     @ResponseBody
     public Result selectByPrimaryKey(int memoryCapacityId){
-        return Result.success(memoryCapacityService.selectByPrimaryKey(memoryCapacityId));
+        return Result.success(memoryCapacityServiceImp.selectByPrimaryKey(memoryCapacityId));
     }
 
     /**
@@ -58,7 +58,7 @@ public class MemoryCapacityController {
     @RequestMapping(value = "/memoryCapacity" , method = RequestMethod.GET , produces = "application/json;charset=utf-8")
     @ResponseBody
     public Result selectAll(){
-        List<MemoryCapacity> memoryCapacities = memoryCapacityService.selectAll();
+        List<MemoryCapacity> memoryCapacities = memoryCapacityServiceImp.selectAll();
         return Result.success(memoryCapacities,memoryCapacities.size());
     }
 
@@ -70,7 +70,7 @@ public class MemoryCapacityController {
     @RequestMapping(value = "/memoryCapacity" , method = RequestMethod.PUT , produces = "application/json;charset=utf-8")
     @ResponseBody
     public Result updateByPrimaryKey(MemoryCapacity memoryCapacity){
-        return memoryCapacityService.updateByPrimaryKey(memoryCapacity) > 0 ? Result.successMessage("修改成功！") : Result.error("修改失败！");
+        return memoryCapacityServiceImp.updateByPrimaryKey(memoryCapacity) > 0 ? Result.successMessage("修改成功！") : Result.error("修改失败！");
     }
 
 

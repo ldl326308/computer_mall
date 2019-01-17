@@ -6,7 +6,7 @@ import com.nf.lc.entity.User;
 import com.nf.lc.exception.EmptyException;
 import com.nf.lc.exception.FailureException;
 import com.nf.lc.exception.FrozenAccountsException;
-import com.nf.lc.service.ShoppingCartService;
+import com.nf.lc.service.impl.ShoppingCartServiceImp;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -20,7 +20,7 @@ import java.util.List;
 public class ShoppingCartController {
 
     @Autowired
-    private ShoppingCartService shoppingCartService;
+    private ShoppingCartServiceImp shoppingCartServiceImp;
 
     /**
      * 添加到购物车
@@ -37,7 +37,7 @@ public class ShoppingCartController {
         }
         shoppingCart.setUserId(currentUser.getUserId()); //写入当前登入用户的id
         try {
-            shoppingCartService.insert(shoppingCart);
+            shoppingCartServiceImp.insert(shoppingCart);
             return Result.successMessage("已将商品添加到购物车中！");
         } catch (FailureException e) {
             return Result.error(e.getMessage());
@@ -58,7 +58,7 @@ public class ShoppingCartController {
             return Result.error("无法获得您的信息，请重新登入！");
         }
         try {
-            return Result.success(shoppingCartService.selectAll(currentUser.getUserId()));
+            return Result.success(shoppingCartServiceImp.selectAll(currentUser.getUserId()));
         } catch (EmptyException e) {
             return Result.successMessage(e.getMessage());
         }
@@ -74,7 +74,7 @@ public class ShoppingCartController {
     @ResponseBody
     public Result deleteByPrimaryKey(@PathVariable("shoppingCartId") int shoppingCartId) {
         try {
-            shoppingCartService.deleteByPrimaryKey(shoppingCartId);
+            shoppingCartServiceImp.deleteByPrimaryKey(shoppingCartId);
             return Result.successMessage("移除成功！");
         } catch (FrozenAccountsException e) {
             return Result.error(e.getMessage());
@@ -90,7 +90,7 @@ public class ShoppingCartController {
     @ResponseBody
     public Result updateByPrimaryKey(@RequestBody ShoppingCart shoppingCart){
         try {
-            shoppingCartService.updateByPrimaryKey(shoppingCart);
+            shoppingCartServiceImp.updateByPrimaryKey(shoppingCart);
             return Result.successMessage("修改购物车商品数量成功！");
         } catch (FrozenAccountsException e) {
             return Result.error(e.getMessage());
@@ -107,7 +107,7 @@ public class ShoppingCartController {
     public Result selectShoppingCartIsTotalPrice(@RequestParam String shoppingIds){
         BigDecimal bigDecimal = null;
         try {
-            bigDecimal = shoppingCartService.selectShoppingCartIsTotalPrice(shoppingIds);
+            bigDecimal = shoppingCartServiceImp.selectShoppingCartIsTotalPrice(shoppingIds);
             return Result.success(bigDecimal);
         } catch (EmptyException e) {
             return Result.success(0);
@@ -127,7 +127,7 @@ public class ShoppingCartController {
             return Result.error("无法获得您的信息，请重新登入！");
         }
         try {
-            List<ShoppingCart> shoppingCarts = shoppingCartService.selectShoppingCartIsIds(shoppingIds,currentUser.getUserId());
+            List<ShoppingCart> shoppingCarts = shoppingCartServiceImp.selectShoppingCartIsIds(shoppingIds,currentUser.getUserId());
             return Result.success(shoppingCarts);
         } catch (EmptyException e) {
             return Result.error(e.getMessage());

@@ -65,4 +65,45 @@ public class UploadImage {
         return Result.success("上传成功！",src,0);
     }
 
+
+
+    /**
+     * 上传商品图片
+     * @return
+     */
+    @RequestMapping(value = "/upload/computerImg",method = RequestMethod.POST , produces = "application/json;charset=utf-8")
+    @ResponseBody
+    public Result uploadComputerImg(@RequestPart("file") MultipartFile multipartFile , HttpServletRequest req){
+        String src = "";
+        if(!multipartFile.isEmpty()){  //不能为空
+
+            //路径
+            String savePath = req.getServletContext().getRealPath("");
+            savePath = savePath +"images\\computer\\";
+            File file = new File(savePath);
+            if(!file.exists()){
+                file.mkdirs();
+            }
+
+            //图片名：upload_原名字_日期.后缀名
+            String fileName = multipartFile.getOriginalFilename();
+            String lastName = fileName.substring(fileName.lastIndexOf(".") , fileName.length());
+            String newFileName = String.valueOf(UUID.randomUUID());
+            String path = savePath+ newFileName + lastName;
+            src = "/images/computer/"+newFileName+lastName;
+
+            try {
+                multipartFile.transferTo(new File(path));
+            } catch (IOException e) {
+                e.printStackTrace();
+                return Result.error("上传失败！请重试！");
+            }
+
+        }else{
+            return Result.error("未接收到文件信息，上传失败！");
+        }
+        return Result.success("上传成功！",src,0);
+    }
+
+
 }

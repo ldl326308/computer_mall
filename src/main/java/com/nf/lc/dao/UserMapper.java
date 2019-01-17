@@ -1,6 +1,8 @@
 package com.nf.lc.dao;
 
 import com.nf.lc.entity.User;
+import org.apache.ibatis.annotations.Param;
+
 import java.util.List;
 
 public interface UserMapper {
@@ -10,7 +12,9 @@ public interface UserMapper {
 
     User selectByPrimaryKey(Integer userId);
 
-    List<User> selectAll();
+    User selectByUserAccountNumber(String userAccountNumber);
+
+    List<User> selectAll(@Param("userState") int userState);
 
     User loginVerify(User record);
 
@@ -19,5 +23,13 @@ public interface UserMapper {
     int updateByPrimaryKey(User record);
 
     User selectVerifyState(User record);
+
+    int updateByPrimaryKeyToState(User user);
+
+    int selectUserCountIsState(@Param("userState") int userState);
+
+    int updateResetUserPassword(int userId);
+
+    List<User> exportUser(@Param("userState") int userState,@Param("start") int start,@Param("end")  int end);
 
 }

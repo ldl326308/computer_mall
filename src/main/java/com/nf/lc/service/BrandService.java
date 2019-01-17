@@ -1,41 +1,17 @@
 package com.nf.lc.service;
 
-import com.nf.lc.dao.BrandMapper;
 import com.nf.lc.entity.Brand;
-import com.nf.lc.service.impl.BrandServiceImp;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-@Service
-public class BrandService implements BrandServiceImp {
+public interface BrandService {
+    int deleteByPrimaryKey(Integer brandId);
 
-    @Autowired
-    private BrandMapper brandMapper;
+    int insert(Brand record);
 
-    @Override
-    public int deleteByPrimaryKey(Integer brandId) {
-        return brandMapper.deleteByPrimaryKey(brandId);
-    }
+    Brand selectByPrimaryKey(Integer brandId);
 
-    @Override
-    public int insert(Brand record) {
-        return brandMapper.insert(record);
-    }
+    List<Brand> selectAll();
 
-    @Override
-    public Brand selectByPrimaryKey(Integer brandId) {
-        return brandMapper.selectByPrimaryKey(brandId);
-    }
-
-    @Override
-    public List<Brand> selectAll() {
-        return brandMapper.selectAll();
-    }
-
-    @Override
-    public int updateByPrimaryKey(Brand record) {
-        return brandMapper.updateByPrimaryKey(record);
-    }
+    int updateByPrimaryKey(Brand record);
 }

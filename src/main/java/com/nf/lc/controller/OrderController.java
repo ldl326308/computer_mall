@@ -5,22 +5,21 @@ import com.nf.lc.entity.Order;
 import com.nf.lc.entity.User;
 import com.nf.lc.exception.EmptyException;
 import com.nf.lc.exception.FailureException;
-import com.nf.lc.service.OrderService;
+import com.nf.lc.service.impl.OrderServiceImp;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
+import javax.ws.rs.Path;
 import java.util.List;
 
 @Controller
 public class OrderController {
 
     @Autowired
-    private OrderService orderService;
+    private OrderServiceImp orderServiceImp;
 
     /**
      * 添加订单的方法
@@ -37,7 +36,7 @@ public class OrderController {
         }
         order.setUserId(currentUser.getUserId()); //写入用户id
         try {
-            orderService.insert(order);
+            orderServiceImp.insert(order);
         } catch (FailureException e) {
             return Result.error(e.getMessage());
         }
@@ -58,12 +57,61 @@ public class OrderController {
         }
 
         try {
-            List<Order> orders = orderService.selectAllIsUserId(currentUser.getUserId());
+            List<Order> orders = orderServiceImp.selectAllIsUserId(currentUser.getUserId());
             return Result.success(orders);
         } catch (EmptyException e) {
             return Result.error(e.getMessage());
         }
 
     }
+
+    /**
+     * 根据订单状态查询订单信息
+     * @param orderState
+     * @return
+     */
+    @RequestMapping(value = "/order" , method = RequestMethod.GET,produces = "application/json;charset=utf-8")
+    @ResponseBody
+    public Result selectAll(int orderState){
+        try {
+            List<Order> orders = orderServiceImp.selectAllIsOrderState(orderState);
+            return Result.success(orders,orderServiceImp.selectAllIsOrderStateCount(orderState));
+        } catch (EmptyException e) {
+            return Result.error(e.getMessage());
+        }
+    }
+
+    /**
+     * 通过订单编号查询数据
+     * @param orderNumber
+     * @return
+     */
+    @RequestMapping(value = "/order/{orderNumber}" , method = RequestMethod.GET , produces = "application/json;charset=utf-8")
+    @ResponseBody
+    public Result selectByOrderNumber(@PathVariable("orderNumber") String orderNumber){
+        try {
+            Order order = orderServiceImp.selectByOrderNumber(orderNumber);
+            return Result.success(order);
+        } catch (EmptyException e) {
+            return Result.error(e.getMessage());
+        }
+    }
+
+    /**
+     * 通过订单编号修改状态
+     * @param orderNumber
+     * @return
+     */
+    @RequestMapping(value = "/order/orderState/{orderNumber}" , method = RequestMethod.POST , produces = "application/json;charset=utf-8")
+    @ResponseBody
+    public Result updateByOrderNumberIsState(@PathVariable("orderNumber") String orderNumber){
+        try {
+            orderServiceImp.updateByOrderNumberIsState(orderNumber);
+            return Result.successMessage("修改成功！");
+        } catch (FailureException e) {
+            return Result.error(e.getMessage());
+        }
+    }
+
 
 }
